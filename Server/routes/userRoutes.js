@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {loginUser, } = require('../controllers/userController');
+const {loginUser,createUser } = require('../controllers/userController');
 
 // Get all users
 // router.get('/users', getUsers);
@@ -9,7 +9,9 @@ const {loginUser, } = require('../controllers/userController');
 // router.post('/users', createUser);
 
 // Login user (without hashing passwords)
-router.post('/', loginUser);
+router.post('/register', createUser )
+router.post('/login', loginUser);
+
 
 
 

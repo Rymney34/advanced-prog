@@ -1,5 +1,47 @@
 const User = require("../schemas/user");
 
+
+const createUser = async(req, res) => {
+  try{
+    const { firstName, secondName, address, phoneNumber, email, password  } = req.body;
+
+    if (!firstName || !secondName || !address || !phoneNumber || !email || !password) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const newUser = new User({
+      firstName,
+      secondName,
+      address,
+      phoneNumber,
+      email,
+      password,
+
+    });
+  
+    await newUser.save();
+        
+   
+
+    res.status(201).json({
+      
+      _id: newUser._id,
+      firstName: newUser.firstName,
+      secondName: newUser.secondName,
+      address: newUser.address,
+      phoneNumber: newUser.phoneNumber,
+      email: newUser.email,
+      password: newUser.password,
+    })
+
+   
+  }catch (err) {
+     console.error("Error :", err); 
+    res.status(400).json({ error: err.message });
+  }
+    
+}
+
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -38,4 +80,4 @@ console.log("Incoming login request:", req.body); //
   }
 };
 
-module.exports = {loginUser}
+module.exports = {loginUser, createUser}

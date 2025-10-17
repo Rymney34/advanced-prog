@@ -1,11 +1,11 @@
 
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage,  useFormikContext} from 'formik';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate,Link } from "react-router-dom";
 import "./Login.css"
 
 import * as Yup from 'yup';
-const API_ENDPOINT = "/login"; 
+const API_ENDPOINT = "/api/login"; 
 
 //to clear error from the validation feedback from db
 const ClearErrorOnChange = () => {
@@ -91,7 +91,7 @@ const navigate = useNavigate();
                             <button type="submit" disabled={isSubmitting}>
                                 Login
                             </button>
-                            <span style={{marginTop: "20px"}}><a>Register</a> if you dont have an acoount</span>
+                            <span style={{marginTop: "20px"}}><Link to="/register">Register</Link> if you dont have an acoount</span>
                             </div>  
                             
                         </Form>
