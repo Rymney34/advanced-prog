@@ -1,54 +1,71 @@
 
 import React from 'react';
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { Formik, Form, Field, ErrorMessage,  useFormikContext} from 'formik';
 import { BrowserRouter as Router, Routes, Route, useNavigate,Link } from "react-router-dom";
 import "./Login.css"
+import { Component } from 'react';
+import togglePasswordVisibility from '../Tools/toggleButton/tooglePassword';
+import withRouter from '../navigate/navigate';
 
 import * as Yup from 'yup';
 const API_ENDPOINT = "/api/login"; 
 
-//to clear error from the validation feedback from db
-const ClearErrorOnChange = () => {
-  const { status, setStatus, values } = useFormikContext();
-  React.useEffect(() => {
-    if (status && status.error) {
-      setStatus(null);
+
+
+class Login extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showPassword: false
     }
-  }, [values, setStatus]);
-  return null;
-};
-
-const Login = () => {
-const navigate = useNavigate();
-
- const handleSubmit = async (values, { setSubmitting, setStatus }) => {
-    try {
-      const response = await fetch(`${API_ENDPOINT}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
         
-      });
-      
+    }
 
-      const data = await response.json();
+  render (){
+  // const navigate = useNavigate();
 
-      if (response.ok && data.message === "Login successful") {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        setStatus({ success: "Login successful!" });
-        console.log("Logged in user:", data.user);
-        navigate('/home')
-      } else {
-        setStatus({ error: data.message || "Invalid credentials" });
+
+  //to clear error from the validation from db
+    const ClearErrorOnChange = () => {
+      const { status, setStatus, values } = useFormikContext();
+      React.useEffect(() => {
+        if (status && status.error) {
+          setStatus(null);
+        }
+      }, [values, setStatus]);
+      return null;
+    };
+
+  const handleSubmit = async (values, { setSubmitting, setStatus }) => {
+      try {
+        const response = await fetch(`${API_ENDPOINT}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+          
+        });
         
+
+        const data = await response.json();
+
+        if (response.ok && data.message === "Login successful") {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          setStatus({ success: "Login successful!" });
+          console.log("Logged in user:", data.user);
+            this.props.navigate('/home')
+        } else {
+          setStatus({ error: data.message || "Invalid credentials" });
+          
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        setStatus({ error: "Server error" });
+      } finally {
+        setSubmitting(false);
       }
-    } catch (error) {
-      console.error("Error:", error);
-      setStatus({ error: "Server error" });
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    };
 
 
     return (
@@ -63,7 +80,7 @@ const navigate = useNavigate();
                                     .email('Wrong Email address')
                                     .required('Required Field'),
                         password: Yup.string()
-                                    .min(5, "Minium 5 chars")
+                                    .min(7, "Minium 7 chars")
                                     .required('Required Field'),
                     })}
                     onSubmit={handleSubmit}
@@ -84,9 +101,22 @@ const navigate = useNavigate();
                             )}
                                 <h3>Login Page</h3>
                             <Field type="email" name="email" id="email" placeHolder="Email" />
-                            <ErrorMessage name="email" component="div" />
-                            <Field type="password" name="password" id="password" placeHolder="Password" />
-                            <ErrorMessage name="password" component="div" />
+                            <ErrorMessage className="errors" name="email" component="div" />
+                            <div id="passwordInput">
+                               
+                            </div>
+                            <div className="password-container">
+                                <Field
+                                  type={this.state.showPassword ? 'text' : 'password'}
+                                  name="password"
+                                  id="password"
+                                  placeholder="Password"
+                                />
+                                <span className="eye-icon" onClick={() => togglePasswordVisibility(this.setState.bind(this))}>
+                                  {this.state.showPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
+                                </span>
+                              </div>
+                              <ErrorMessage className="errors" name="password" component="div" />
                             {/* {console.log("Gazoz")} */}
                             <button type="submit" disabled={isSubmitting}>
                                 Login
@@ -100,11 +130,10 @@ const navigate = useNavigate();
                     
                     
                 </Formik>
-                </div>
-            </div>
-  
+              </div>
+          </div>
     )
-    
+  }
 }
 
 export default Login;

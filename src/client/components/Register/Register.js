@@ -3,6 +3,8 @@ import { Formik, Form, Field, ErrorMessage,  useFormikContext} from 'formik';
 import { BrowserRouter as Router, Routes, Route, useNavigate,Link } from "react-router-dom";
 import './Register.css'
 import withRouter from '../navigate/navigate';
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import togglePasswordVisibility from '../Tools/toggleButton/tooglePassword';
 import axios from 'axios'
 import * as Yup from 'yup';
 
@@ -12,9 +14,19 @@ class Register extends Component {
     
     constructor(props) {
     super(props);
-    
+    this.state = {
+      showPassword: false
+    }
+
         
     }
+
+    // togglePasswordVisibility = () => {
+    //     this.setState((prevState) => ({
+    //     showPassword: !prevState.showPassword,
+    //     }));
+    // };
+    
 
     
 
@@ -104,7 +116,18 @@ class Register extends Component {
                                 <ErrorMessage name="phoneNumber" component="div" />
                             <Field type="email" name="email" id="email" placeHolder="Email" />
                                 <ErrorMessage name="email" component="div" />
-                            <Field type="password" name="password" id="password" placeHolder="Password" />
+                                
+                            <div className="password-container">
+                                <Field
+                                    type={this.state.showPassword ? 'text' : 'password'}
+                                    name="password"
+                                    id="password"
+                                    placeholder="Password"
+                                />
+                                <span className="eye-icon" onClick={() => togglePasswordVisibility(this.setState.bind(this))}>
+                                    {this.state.showPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
+                                </span>
+                            </div>
                                 <ErrorMessage name="password" component="div" />
                             
                             {/* {console.log("Gazoz")} */}
