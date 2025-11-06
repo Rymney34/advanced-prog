@@ -26,7 +26,6 @@ class Register extends Component {
     //     showPassword: !prevState.showPassword,
     //     }));
     // };
-    
 
     
 

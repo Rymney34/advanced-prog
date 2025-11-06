@@ -2,11 +2,12 @@
 import React from 'react';
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { Formik, Form, Field, ErrorMessage,  useFormikContext} from 'formik';
-import { BrowserRouter as Router, Routes, Route, useNavigate,Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Link } from "react-router-dom";
 import "./Login.css"
+import withRouter from '../navigate/navigate';
 import { Component } from 'react';
 import togglePasswordVisibility from '../Tools/toggleButton/tooglePassword';
-import withRouter from '../navigate/navigate';
+
 
 import * as Yup from 'yup';
 const API_ENDPOINT = "/api/login"; 
@@ -54,14 +55,14 @@ class Login extends Component {
           localStorage.setItem("user", JSON.stringify(data.user));
           setStatus({ success: "Login successful!" });
           console.log("Logged in user:", data.user);
-            this.props.navigate('/home')
+            this.props.navigate("/home");
         } else {
           setStatus({ error: data.message || "Invalid credentials" });
           
         }
       } catch (error) {
         console.error("Error:", error);
-        setStatus({ error: "Server error" });
+        setStatus({ error: "Error" });
       } finally {
         setSubmitting(false);
       }
@@ -70,7 +71,7 @@ class Login extends Component {
 
     return (
       <div id="formLogin"> 
-            <div style={{ }}>
+            <div>
             
                 <Formik
                
@@ -136,4 +137,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

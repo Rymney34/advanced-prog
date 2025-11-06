@@ -1,0 +1,6 @@
+.headerStyles{
+    display: flex;
+    gap: 280px;
+    align-items: center;
+    justify-content: space-around;
+}

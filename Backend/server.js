@@ -3,12 +3,13 @@ const userRoutes = require("./routes/userRoutes.js");
 const path = require('path');
 const User = require("./schemas/user");
 const cors = require("cors");
-const connectDB = require('./config/dbConnect');
+// const connectDB = require('./config/dbConnect');
 // Connect to MongoDB Databases
+const db = require('./config/dbConnect'); 
 
 const PORT = process.env.PORT ||3001
 const app = express()
-connectDB()
+// connectDB()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
