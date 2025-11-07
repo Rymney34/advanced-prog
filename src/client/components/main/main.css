@@ -1,0 +1,43 @@
+.mainPoster {
+    position: relative; 
+    width: 100%;
+     
+}
+
+.poster {
+    width: 100%;
+    display: absolute; 
+}
+
+.businessSlogan {
+    position: absolute;
+    top: 90px; 
+    left: 86px; 
+    font-family: "Bebas Neue", sans-serif;
+    /* z-index: 10; */
+    color: white;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 96px;
+}
+
+
+.businessSlogan p {
+    margin: 0;
+}
+
+.textServiceBlock{
+    display:flex;
+    justify-content:center;
+}
+
+.textServiceBlock h2{
+    color:#FFF9CB;
+    font-size: 48px;
+}
+
+.services{
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 40px;
+}

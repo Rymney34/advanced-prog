@@ -1,6 +1,31 @@
+.logoImg{
+   width: 70px;
+   height: 70px;
+}
+.logoBlock{
+    display: flex;
+    align-items: center;
+}
+
+.title{
+    font-size: 50px;
+    color:#FFF9CB;
+}
+
 .headerStyles{
     display: flex;
-    gap: 280px;
+    gap: 700px;
     align-items: center;
     justify-content: space-around;
+    height: 100px;
+}
+.profileImgBlock{
+    width: 90px;
+    height: 90px;
+    overflow: hidden;
+}
+
+.profileImgBlock img{
+    width: 100%;
+    height: 100%;
 }

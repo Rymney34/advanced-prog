@@ -15,7 +15,7 @@ export default function Button(props) {
 
         return (
            <button type='button' className="ButtonWrap">
-                <span></span>
+                <span>{text}</span>
            </button>
 
         )

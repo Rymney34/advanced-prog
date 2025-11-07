@@ -2,6 +2,7 @@ import Header from '../header/header';
 import React, {Component} from 'react';
 import mainPoster from '../../resources/images/mainPoster.png'
 import ServiceCard from '../serviceCards/serviceCard';
+import './main.css'
 
 export default class Main extends Component {
     render (){
@@ -9,12 +10,20 @@ export default class Main extends Component {
             <div>
                 <Header/>
                 <div className='mainPoster'>
-                    <img src={mainPoster}></img>
-                    <p>Trusted Cleaners One tap away</p>
+                    <img className='poster' src={mainPoster}></img>
+                    <div className="businessSlogan">
+                        <p >Trusted Cleaners <br/>One tap away</p>
+                    </div>
+                    
                 </div>
-                <h2> Available Services</h2>
+                <div className="textServiceBlock">
+                    <h2> Avaliable Services</h2>
+                </div>
+                
                 <div className='services'>
                     <ServiceCard/>
+                     <ServiceCard/>
+                      <ServiceCard/>
                 </div>
             </div>
 
