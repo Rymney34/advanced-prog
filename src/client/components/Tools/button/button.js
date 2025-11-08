@@ -4,6 +4,7 @@ import "./button.css"
 export default function Button(props) {
 
         const {
+            type,
             link,
             onClick,
             text,
@@ -14,7 +15,7 @@ export default function Button(props) {
         } = props;
 
         return (
-           <button type='button' className="ButtonWrap">
+           <button type={type} onClick={onClick} style={style}className="ButtonWrap">
                 <span>{text}</span>
            </button>
 

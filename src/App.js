@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Main from  "./client/components/main/main"
 import './App.css';
 import Register from "./client/components/Register/Register";
+import BookingForm from "./client/components/bookingForm/bookingForm";
+import ServiceDetails from "./client/components/serviceDetails/serviceDetails";
 
 function App() {
 
@@ -33,6 +35,14 @@ function App() {
               <Route
                   path="/register"
                   element={<Register/>}
+              />
+              <Route
+                path="/bookingForm"
+                element={<BookingForm/>}
+              />
+              <Route
+                path="/serviceDetails"
+                 element={<ServiceDetails/>}
               />
      
      

@@ -1,0 +1,92 @@
+.bookingFormWrapper{
+    background-color: white;
+    width: 968px;
+    height: 460px;
+    border-radius: 15px;
+}
+
+.bookingFormInner{
+
+}
+
+.bookingForm{
+
+}
+
+.phoneNumBlock{
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+.phone-prefix{
+    margin:10px
+}
+
+
+
+.leftBookingBlock{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.rightBookingBlock{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.bookingFields{
+    display: flex;
+    justify-content: space-around;
+    height: 300px;
+}
+
+.bookingFields input{
+    padding: 5px;
+    width: 360px;
+    height: 35px;
+    border-radius: 15px;
+}
+
+#dateTime{
+    height: 45px;
+    border-radius: 15px;
+}
+
+#bookingNote{
+    padding: 5px;
+    border-radius: 15px;
+    height: 100px;
+}
+
+#phoneNumber{
+    width: 320px;
+    border-radius: 0px 15px 15px 0;
+}
+
+.BookingDesc{
+    display: flex;
+    flex-direction: column;
+    margin:10px 0 20px 30px;
+}
+
+.BookingDesc h3{
+    margin-bottom:10px;
+    font-size: 29px;
+    
+}
+
+.BookingDesc p{
+    font-size: 22px;
+    color: rgb(97, 97, 97);
+    margin:0;
+    
+}
+
+
+.error{
+    color:red
+}
