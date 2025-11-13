@@ -6,6 +6,7 @@ import './App.css';
 import Register from "./client/components/Register/Register";
 import BookingForm from "./client/components/bookingForm/bookingForm";
 import ServiceDetails from "./client/components/serviceDetails/serviceDetails";
+import SingleBooking from "./client/components/singleBooking/singleBooking";
 
 function App() {
 
@@ -43,6 +44,10 @@ function App() {
               <Route
                 path="/serviceDetails"
                  element={<ServiceDetails/>}
+              />
+               <Route
+                path="/singleBooking"
+                 element={<SingleBooking/>}
               />
      
      
