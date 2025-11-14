@@ -1,12 +1,12 @@
 .detWrapperBlock{
     display: flex;
     justify-content: center;
-    margin-bottom: 100px;
+    margin-bottom: 120px;
 }
 
 .detailsBlock{
     width: 1200px;
-    height: 650px;
+    height: 550px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 15px;
     display: flex;
@@ -17,7 +17,7 @@
 
 .informationBlock{
     width: 712px;
-    height: 580px;
+    height: 480px;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.1);
     display: flex;
@@ -32,7 +32,7 @@
 
 .buttonsBlockWrapper{
     width: 398px;
-    height: 580px;
+    height: 480px;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.1);
     display: flex;

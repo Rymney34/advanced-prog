@@ -1,8 +1,22 @@
 import "./header.css"
 import logoImg from '../../resources/images/logo1.png'
 import profileImg from '../../resources/images/profile.png'
+import ProfileModal from "../profile/profileMenu"
+
+import { useState } from "react"
 
 export default function Header(props) {
+
+        const [open, setOpen] = useState(false);
+
+        const handleClose = () => {
+            setOpen(false);
+        };
+
+        const handleOpen = () => {
+            setOpen(true);
+        };
+
         return (
             <div>
                 <header className="headerStyles">
@@ -11,9 +25,12 @@ export default function Header(props) {
                         <h1 className='title'>BookFlow</h1>
                     </div>
                     
-                    <div className="profileImgBlock">
-                        <img src={profileImg}/>
+                    <div  className="profileImgBlock">
+                         <ProfileModal isOpen ={open} onClose={handleClose}/>
+                        <img onClick={handleOpen} src={profileImg}/>
+                        
                     </div>
+                   
                     
                 </header>
                

@@ -51,6 +51,9 @@
     border-radius: 15px;
 }
 
+#phoneNumber{
+    
+}
 #dateTime{
     height: 45px;
     border-radius: 15px;
@@ -62,7 +65,7 @@
     height: 100px;
 }
 
-#phoneNumber{
+#phoneNumber2{
     width: 320px;
     border-radius: 0px 15px 15px 0;
 }

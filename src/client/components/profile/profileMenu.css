@@ -1,0 +1,39 @@
+.profileModalWrapper{
+    /* width: 300px;
+    height: 500px;
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    z-index: 9998!important;  */
+}
+
+.modalContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    font-size: 30px;
+}
+
+.profileSections{
+    display: flex;
+}
+
+.list{
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.list li{
+     transition: 0.3s ease-in-out;
+     cursor: pointer;
+     
+}
+
+.list li:hover{
+     
+     transform: scale(1.20);
+     
+}

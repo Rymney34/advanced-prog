@@ -133,7 +133,7 @@ class BookingForm extends Component {
                                         <ErrorMessage className="error" name="postcode" component="div" />
                                     <div className='phoneNumBlock'>
                                         <span className="phone-prefix">+44</span>
-                                        <Field type="text" name="phoneNumber" id="phoneNumber" placeHolder="+44 Phone Number" />
+                                        <Field type="text" name="phoneNumber" id="phoneNumber2" placeHolder="+44 Phone Number" />
                                     </div>
                                         <ErrorMessage className="error" name="phoneNumber" component="div" />
                                     

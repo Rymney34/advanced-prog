@@ -1,0 +1,41 @@
+.bookingTablePageWrapper{
+   min-height: 100vh;
+}
+
+.serachBookingsWrapper{
+    /* height: 100%; */
+}
+
+.bookingTableWrapperBlock{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tableBlock{
+    background: rgba(255, 255, 255, 0.05);
+    width: 1000px;
+    
+  
+
+}
+
+.tableWrapper{
+    margin: 0 0 50px 0;
+}
+
+.tableHeadingWrapper{
+    color: white;
+    font-weight: 800;
+    font-size: 30px;
+    
+}
+.tHeading{
+     margin: 20px;
+     padding: 5px;
+}
+.tableDescriptionWrapper{
+    color: white;
+    font-size: 25px;
+}
+

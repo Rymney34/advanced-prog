@@ -7,6 +7,8 @@ import Register from "./client/components/Register/Register";
 import BookingForm from "./client/components/bookingForm/bookingForm";
 import ServiceDetails from "./client/components/serviceDetails/serviceDetails";
 import SingleBooking from "./client/components/singleBooking/singleBooking";
+import BookingTable from "./client/components/bookingTable/bookingTable";
+import  {SearchProvider} from './client/components/context/context';
 
 function App() {
 
@@ -48,6 +50,10 @@ function App() {
                <Route
                 path="/singleBooking"
                  element={<SingleBooking/>}
+              />
+              <Route
+                path="/BookingTable"
+                 element={<SearchProvider> <BookingTable/></SearchProvider> }
               />
      
      

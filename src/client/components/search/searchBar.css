@@ -1,0 +1,14 @@
+.searchBarWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 40px 0 ;
+}
+
+
+.searchBar{
+    width: 500px;
+    height: 35px;
+    border-radius: 15px;
+    padding: 5px;
+}
