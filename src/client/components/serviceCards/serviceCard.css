@@ -1,10 +1,16 @@
 .serviceCard{
     border: 1px solid rgb(255, 255, 255);
     border-radius: 10px;
-    width: 380px;
-    height: 270px;
+    width: 30%;
+    height: 20%;
     overflow: hidden;
+    transition: 0.3s ease-in-out;
 }
+.serviceCard:hover{
+   transform: scale(1.02);
+}
+
+
 
 .imageBlock{
     width: 100%;

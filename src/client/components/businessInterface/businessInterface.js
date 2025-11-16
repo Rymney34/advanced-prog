@@ -1,39 +1,29 @@
 import { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage,  useFormikContext} from 'formik';
 import { BrowserRouter as Router, Routes, Route, useNavigate,Link } from "react-router-dom";
-import './bookingForm.css'
+import './businessInterface.css'
 import withRouter from '../navigate/navigate';
 
 
 import axios from 'axios'
 import * as Yup from 'yup';
 import Button from '../Tools/button/button';
+import Header from '../header/header';
 
 
-const API_ENDPOINT = "/api/register"; 
 
-class BookingForm extends Component {
+class BusinessInterface extends Component {
     
     constructor(props) {
     super(props);
     this.state = {
-        
-        // onClose: "", 
-        // children: "",
-        title: "",
-        desc: "",
-        buttonTitle:"",
-        
-        
-        content: ""
+      
     }
 
         
     }
 
     render (){
-    
-    // if (!this.props.isOpen) return null;
 
     const handleSubmit = async (values, { setSubmitting, setStatus }) => {
         
@@ -50,59 +40,49 @@ class BookingForm extends Component {
             
         }
   };
-    const nationalNumberRegex = /^[1-9](?:\s?\d){8,9}$/;
+  
 
         return(
-            <div className="bookingFormWrapper" style={this.props.style}>
-                <div className='bookingFormInner'>
+            <div className="interfaceWrapper">
+                <Header/>
+                <div className='interfaceBlock'>
                     <Formik
                         initialValues={{ 
-                            firstName: '',
-                            secondName: '',
-                            address: '',
-                            postcode: '',
-                            dateTime: '',
-                            phoneNumber:'',
-                            bookingNote: ''
+                            serviceTitle: '',
+                            serviceDescription: '',
+                            availableDateTime: '',
+                            image:''
 
                         }}
                         
                             validationSchema = {Yup.object({
-                                firstName: Yup.string()
+                                serviceTitle: Yup.string()
+                                            .min(3, "Min 3 characters")
                                             .required('Required Field'),
-                                secondName: Yup.string()
+                                serviceDescription: Yup.string()
+                                            .min(10, "Min 3 characters")
                                             .required('Required Field'),
-                                address: Yup.string()
+                                availableDateTime: Yup.string()
                                             .min(2, "Min 2 characters")
                                             .required('Address is Required'),
-                                postcode: Yup.string()
+                                image: Yup.string()
                                             .min(2, "Min 2 characters")
                                             .required('Postcode is Required'),
-                                dateTime: Yup.string()
-                                            .min(2, "Min 2 characters")
-                                            .required('Required Field'),
-                                phoneNumber: Yup.string()
-                                            .min(2, "Min 2 characters")
-                                            .matches(nationalNumberRegex, "input 9 or 10 numbers(DO NOT include 0 or +44)")
-                                            .required('Phone Number is Required '),
-                                email: Yup.string()
-                                            .email('Wrong Email address')
-                                            .required('Required Field'),
-                                bookingNote: Yup.string()
-                                            .min(5, "Minium 5 characters")
+                                
+                                
                                             
                             })}
                             onSubmit={handleSubmit}
                     >
 
-                         {({ isSubmitting, status}) => (
-                        <Form className='bookingForm'>
+                            {({ isSubmitting, status}) => (
+                        <Form className='serviceForm'>
                             <div style={{
                                 display:"flex", alignItems: "center",
                                 justifyContent: "space-between"
                             }}
                             >
-                                <div className='BookingDesc'>
+                                <div className='ServiceDesc'>
                                     <h3>{this.props.title}</h3>
                                     <p>{this.props.desc}</p>
                                     
@@ -112,15 +92,15 @@ class BookingForm extends Component {
                                 </div>
 
                             </div>
-                           
+                            
                             {status && status.error && (
                                 <div style={{ color: 'red', marginBottom: '10px' }}>
                                     {status.error}
                                 </div>
                             )}
-                            <div className='bookingFields'>
-                                <div className='leftBookingBlock'>
-                                    <Field type="text" name="firstName" id="firstName" placeHolder="First Name" />
+                            <div className='ServiceFields'>
+                                <div className='leftFormBlock'>
+                                    <Field type="text" name="serviceTitle" id="serviceTitle" placeHolder="service Title" />
                                         <ErrorMessage className="error" name="firstName" component="div" />
                                     <Field type="text" name="secondName" id="secondName" placeHolder="Second Name" />
                                         <ErrorMessage className="error" name="secondName" component="div" />
@@ -144,33 +124,29 @@ class BookingForm extends Component {
                                         }
                                     </Field> 
                                         <ErrorMessage className="error" name="dateTime" component="div" />
-                                    <Field as="textarea" name="bookingNote" id="bookingNote" placeHolder="Booking Note" />
-                                        <ErrorMessage className="error" name="bookingNote" component="div" />
+                                   
                                 </div>
 
-                                <div className='rightBookingBlock'>
+                                <div className='rightFormBlock'>
                                     <Field type="text" name="address" id="address" placeHolder="Address" />
                                         <ErrorMessage className="error" name="address" component="div" />
                                     <Field type="text" name="postcode" id="postcode" placeHolder="Post Code" />
                                         <ErrorMessage className="error" name="postcode" component="div" />
-                                    <div className='phoneNumBlock'>
-                                        <span className="phone-prefix">+44</span>
-                                        <Field type="text" name="phoneNumber" id="phoneNumber2" placeHolder="+44 Phone Number" />
-                                    </div>
-                                        <ErrorMessage className="error" name="phoneNumber" component="div" />
+                                     <Field as="textarea" name="serviceDescription" id="serviceDescription" placeHolder="Service Description" />
+                                        <ErrorMessage className="error" name="serviceDescription" component="div" />
                                     
                             
-                                    <Button type="submit" text={this.props.buttonTitle} isabled={isSubmitting} style={{backgroundColor:"#56D55D", color: "white"}}/>
+                                    <Button type="submit" text="Submit" isabled={isSubmitting} style={{backgroundColor:"#56D55D", color: "white"}}/>
                                 </div>
                             </div>
                             
                             
                         </Form>
-                         )}
+                            )}
                     </Formik>
                 </div>
             </div>
         )
     }
 }
-export default withRouter(BookingForm);
+export default BusinessInterface;

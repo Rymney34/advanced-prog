@@ -1,3 +1,8 @@
+.sinleBookingPageWrapper{
+    height: 100vh;
+}
+
+
 .detWrapperBlock{
     display: flex;
     justify-content: center;
@@ -6,7 +11,7 @@
 
 .detailsBlock{
     width: 1200px;
-    height: 550px;
+    height: 450px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 15px;
     display: flex;
@@ -16,8 +21,8 @@
 }
 
 .informationBlock{
-    width: 712px;
-    height: 480px;
+    width: 60%;
+    height: 380px;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.1);
     display: flex;
@@ -25,14 +30,14 @@
      
 }
 .fieldsBlock{
-    font-size: 45px;
+    font-size: 35px;
     color: white;
     margin-left: 50px;
 }
 
 .buttonsBlockWrapper{
-    width: 398px;
-    height: 480px;
+    width: 32%;
+    height: 380px;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.1);
     display: flex;

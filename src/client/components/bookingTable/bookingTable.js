@@ -67,7 +67,7 @@ render (){
                                 <td className="tableDescription">fsddsfsdfsd</td>
                                 <td className="tableDescription">fsddsfsdfsd</td>
                                 <td className="tableDescription">fsddsfsdfsd</td>
-                                <td className="tableDescription">fsddsfsdfsd</td>
+                                <td className="tableDescription"><Button text="View Details" /></td>
                             </tr>
                               {/* <tr  className="tableDescriptionWrapper">
                                 <td className="tableDescription">fsddsfsdfsd</td>

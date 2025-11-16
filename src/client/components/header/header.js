@@ -4,8 +4,9 @@ import profileImg from '../../resources/images/profile.png'
 import ProfileModal from "../profile/profileMenu"
 
 import { useState } from "react"
+import withRouter from "../navigate/navigate"
 
-export default function Header(props) {
+function Header(props) {
 
         const [open, setOpen] = useState(false);
 
@@ -20,7 +21,9 @@ export default function Header(props) {
         return (
             <div>
                 <header className="headerStyles">
-                    <div className="logoBlock">
+                    <div 
+                        className="logoBlock" 
+                        onClick={() => props.navigate("/home")}>
                         <img className="logoImg" src={logoImg}/>
                         <h1 className='title'>BookFlow</h1>
                     </div>
@@ -39,4 +42,5 @@ export default function Header(props) {
         )
     
 }
+export default withRouter(Header)
 

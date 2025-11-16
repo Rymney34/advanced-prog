@@ -93,3 +93,13 @@
 .error{
     color:red
 }
+.closeImg{
+    width:30px;
+    height: 30px;
+    margin: 0px 80px 0 0;
+    cursor: pointer;
+}
+
+.closeImg:hover {
+    transform: scale(1.2);
+}

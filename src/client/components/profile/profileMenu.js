@@ -27,16 +27,13 @@ class ProfileModal extends Component {
 render (){
 
     if (!this.props.isOpen) return null;
-    
-    console.log("menu")
 
-   
     return (
         
         <div className='profileModalWrapper'  onClick={this.props.onClose}  style={{
                     background: "white",
-                    height: 350,
-                    width: 240,
+                    height: 330,
+                    width: 200,
                     margin: "auto",
                     padding: "2%",
                     border: "2px solid #000",
@@ -55,12 +52,12 @@ render (){
                
                 <div className="profileSections">
                     
-                     <ul className="list">
+                    <ul className="list">
                         <li style={{marginBottom: 15}}onClick={() => this.props.onClose}>
                             Close
                             
                         </li>
-                        <li onClick={() => this.props.navigate("/main")}>Home</li>
+                        <li onClick={() => this.props.navigate("/home")}>Home</li>
                         <li onClick={() => this.props.navigate("/bookingTable")}>Your Bookings</li>
                         <li onClick={() => this.props.navigate("/")}>Your Services</li>
                         <li onClick={() => this.props.navigate("/")}>Customise</li>
