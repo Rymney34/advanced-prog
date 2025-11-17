@@ -1,0 +1,79 @@
+.interfaceWrapper{
+    height: 100vh;
+    
+}
+
+#pagetitle{
+    margin: 0;
+}
+
+.interfaceBlock{
+    display: flex;
+    justify-content: center;
+}
+
+
+.serviceForm{
+  
+}
+
+.ServiceFields{
+      background-color: white;
+    border: 1px solid black;
+    border-radius: 15px;
+    width: 900px;
+    height: 500px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* justify-content: space-around; */
+    /* justify-content: center; */
+}
+
+.leftFormBlock{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-evenly;
+}
+
+.rightFormBlock{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-evenly;
+    
+}
+
+.ServiceFields input{
+    border: 1px solid rgb(118, 118, 118);
+    padding: 5px 5px 5px 10px;
+    width: 360px;
+    height: 35px;
+    border-radius: 15px;
+}
+
+.ServiceFields select{
+    border: 1px solid rgb(118, 118, 118);
+    padding: 5px 5px 5px 10px;
+   
+    border-radius: 15px;
+}
+
+
+input::file-selector-button {
+  background:rgb(170, 131, 174);
+  color: white;
+  border: none;
+  padding: 8px ;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 1px 10px 0 0 ;
+  
+}
+
+input::file-selector-button:hover {
+  transform: scale(1.1);
+  
+}

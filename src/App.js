@@ -9,6 +9,7 @@ import ServiceDetails from "./client/components/serviceDetails/serviceDetails";
 import SingleBooking from "./client/components/singleBooking/singleBooking";
 import BookingTable from "./client/components/bookingTable/bookingTable";
 import  {SearchProvider} from './client/components/context/context';
+import BusinessInterface from "./client/components/businessInterface/businessInterface";
 
 function App() {
 
@@ -54,6 +55,10 @@ function App() {
               <Route
                 path="/BookingTable"
                  element={<SearchProvider> <BookingTable/></SearchProvider> }
+              />
+              <Route
+                path="/businessInteface"
+                 element={<BusinessInterface/> }
               />
      
      

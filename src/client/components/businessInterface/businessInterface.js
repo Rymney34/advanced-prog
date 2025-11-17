@@ -28,8 +28,8 @@ class BusinessInterface extends Component {
     const handleSubmit = async (values, { setSubmitting, setStatus }) => {
         
         try {
-            const res = await axios.post(`${API_ENDPOINT}`, values);
-            console.log("Booking Submited:", res.data);
+            // const res = await axios.post(`${API_ENDPOINT}`, values);
+            // console.log("Booking Submited:", res.data);
             // navigate("/");
            
 
@@ -45,6 +45,9 @@ class BusinessInterface extends Component {
         return(
             <div className="interfaceWrapper">
                 <Header/>
+                 <div className='pagetitle' id='pagetitle' >
+                    <h2 style={{margin: "0"}}>Service Form</h2>
+                </div>
                 <div className='interfaceBlock'>
                     <Formik
                         initialValues={{ 
@@ -61,13 +64,15 @@ class BusinessInterface extends Component {
                                             .required('Required Field'),
                                 serviceDescription: Yup.string()
                                             .min(10, "Min 3 characters")
-                                            .required('Required Field'),
+                                            .required('Service Description Field is required'),
                                 availableDateTime: Yup.string()
                                             .min(2, "Min 2 characters")
-                                            .required('Address is Required'),
+                                            .required('Date is Required'),
+                                price: Yup.string()
+                                            .required('Price is Required'),
                                 image: Yup.string()
                                             .min(2, "Min 2 characters")
-                                            .required('Postcode is Required'),
+                                            .required('Image is Required'),
                                 
                                 
                                             
@@ -100,10 +105,21 @@ class BusinessInterface extends Component {
                             )}
                             <div className='ServiceFields'>
                                 <div className='leftFormBlock'>
-                                    <Field type="text" name="serviceTitle" id="serviceTitle" placeHolder="service Title" />
-                                        <ErrorMessage className="error" name="firstName" component="div" />
-                                    <Field type="text" name="secondName" id="secondName" placeHolder="Second Name" />
-                                        <ErrorMessage className="error" name="secondName" component="div" />
+                                    <Field type="text" name="serviceTitle" id="serviceTitle" placeHolder="Service Title" />
+                                        <ErrorMessage className="error" name="serviceTitle" component="div" />
+                                    
+                                    <Field type="text" name="price" id="price" placeHolder="Price"/>
+                                        <ErrorMessage className="error" name="price" component="div"/>
+                                    <Field
+                                        style={{border:"1px solid rgb(118, 118, 118)"}}
+                                        name="image"
+                                        id="image"
+                                        // component={FileDragAndDropField}
+                                        accept="image"
+                                        type = "file"
+                                        placeholder="Choose Your Imafe"
+                                        />
+                                   {/* <ErrorMessage className="error" name="image" component="div"/> */}
                                     <Field
                                         as="select"
                                         id="dateTime" 
@@ -128,12 +144,10 @@ class BusinessInterface extends Component {
                                 </div>
 
                                 <div className='rightFormBlock'>
-                                    <Field type="text" name="address" id="address" placeHolder="Address" />
-                                        <ErrorMessage className="error" name="address" component="div" />
-                                    <Field type="text" name="postcode" id="postcode" placeHolder="Post Code" />
-                                        <ErrorMessage className="error" name="postcode" component="div" />
-                                     <Field as="textarea" name="serviceDescription" id="serviceDescription" placeHolder="Service Description" />
+                                   
+                                  <Field style={{width:"90%", height: "40%", borderRadius: 15, padding: 10}} as="textarea" name="serviceDescription" id="serviceDescription" placeHolder="Service Description" />
                                         <ErrorMessage className="error" name="serviceDescription" component="div" />
+                                 
                                     
                             
                                     <Button type="submit" text="Submit" isabled={isSubmitting} style={{backgroundColor:"#56D55D", color: "white"}}/>
