@@ -10,6 +10,7 @@ import SingleBooking from "./client/components/singleBooking/singleBooking";
 import BookingTable from "./client/components/bookingTable/bookingTable";
 import  {SearchProvider} from './client/components/context/context';
 import BusinessInterface from "./client/components/businessInterface/businessInterface";
+import ProtectedRoute from "./client/components/Tools/protectedRoute/protected.route";
 
 function App() {
 
@@ -31,11 +32,13 @@ function App() {
                   path="/login"
                   element={<Login/>}
               />
-             
-              <Route
+             <Route element ={<ProtectedRoute/>}>
+                <Route
                   path="/home"
                   element={<Main/>}
-              />
+                />
+             </Route>
+              
               <Route
                   path="/register"
                   element={<Register/>}

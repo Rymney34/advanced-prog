@@ -51,8 +51,11 @@ class Login extends Component {
 
         const data = await response.json();
 
-        if (response.ok && data.message === "Login successful") {
+        console.log(data.accessToken)
+        if (response.ok && data.accessToken && data.message === "Login successful") {
           localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("token", data.accessToken);
+          // localStorage.setItem("refreshToken", data.refreshToken);
           setStatus({ success: "Login successful!" });
           console.log("Logged in user:", data.user);
             this.props.navigate("/home");
