@@ -1,25 +1,16 @@
 const jwt = require('jsonwebtoken')
 const express = require('express');
-const { connect } = require('mongoose');
 
 class JWT_Token_Provider {
     constructor(){
     this.JWT_Token = process.env.ACCESS_TOKEN_SECRET
-    this.ACCESS_Token_Expires = '15m'
-    // const ACCESS_Token_Expires = '15m'
-    // const REFRESH_Token_Expires = '2d'
+    this.ACCESS_Token_Expires = '10m'
     this.REFRESH_Token = process.env.REFRESH_TOKEN
-    this.REFRESH_Token_Expires = "2d"
+    this.REFRESH_Token_Expires = "1d"
     }
 
-    
-
+    // generatingAccessToken function
     generateAccessToken(user){
-        const JWT_Token = process.env.ACCESS_TOKEN_SECRET
-        const REFRESH_Token = process.env.REFRESH_TOKEN
-        const ACCESS_Token_Expires = '15m'
-        const REFRESH_Token_Expires = '2d'
-
         const payload = {
             sub: user.id,
             firstName: user.firstName
@@ -31,7 +22,7 @@ class JWT_Token_Provider {
             }
         )
     }
-
+    // generating Refresh token method passing expiring data 
     generateRefreshToken(user){
         return jwt.sign(
             {sub: user.id,
@@ -41,11 +32,10 @@ class JWT_Token_Provider {
             {expiresIn:this.REFRESH_Token_Expires}
         )
     }
-
+    // verifying the token that is not fake, cheking if same secret numbers
     verifyRefreshToken(token) {
         try {
-            // Use the separate, secure secret for refresh tokens
-            const userPayload = jwt.verify(token, this.REFRESH_TOKEN_SECRET);
+            const userPayload = jwt.verify(token, this.REFRESH_Token);
             return userPayload; 
         } catch (err) {
             // Token is invalid or expired
@@ -53,29 +43,29 @@ class JWT_Token_Provider {
         }
     }
 
+    // verification of the access token 
+
     authenticateToken(req, res, next) {
           const JWT_Token = process.env.ACCESS_TOKEN_SECRET
         const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1]; // Correct split
+        const token = authHeader && authHeader.split(' ')[1]; 
+
         console.log(token)
-        if (!token || token == null) {
+        if (!token ) {
             return res.status(401).json({ message: 'Token missing' });
         }
-
+  // verification if the token is the proper token
         jwt.verify(token, JWT_Token, (err, user) => {
+            // console.log('fsdfsdf FF '+token)
             if (err) {
+               
                 return res.status(403).json({ message: 'Invalid or expired token' });
             }
 
-            req.user = user; // This is correct now (was missing =)
+            req.user = user; 
             next();
         });
     }
-
-    
-
-    
-
 }
 
 module.exports = new JWT_Token_Provider();

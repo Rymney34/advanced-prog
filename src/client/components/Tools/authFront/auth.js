@@ -1,28 +1,46 @@
-// export const isAuthenticated = () => {
-//     //  get the token
-//     const token = localStorage.getItem('token');
-
-//     // check for token
-//     return !!token; // Returns true if token exists, false otherwise
-// };
-
-// check for token
 export const isAuthenticated = async () => {
   const token = localStorage.getItem("token");
-  if (!token) return false; // no token in local
-  
 
+  if (!token) {
+    const refreshed = await tryRefresh();
+    return refreshed;
+  }
+
+  // Try validate token
+  const response = await fetch("/api/auth/validate", {
+    method: "GET",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  // Token valid OK
+  if (response.ok) return true;
+
+// expired try refresh
+  if (response.status === 403) {
+    const refreshed = await tryRefresh();
+  
+    return refreshed;
+  }
+
+  return false;
+};
+
+//  refresh function
+async function tryRefresh() {
   try {
-    // trying to check of secret thing on the token side
-    const response = await fetch("/api/auth/validate", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const refreshResponse = await fetch("/api/refresh", {
+      method: "POST",
+      credentials: "include",
     });
 
-    return response.ok; // token valid on backend
+    if (!refreshResponse.ok) return false;
+
+    const data = await refreshResponse.json();
+    localStorage.setItem("token", data.accessToken);
+    
+    return true;
+
   } catch (err) {
     return false;
   }
-};
+}

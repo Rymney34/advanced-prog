@@ -51,7 +51,7 @@ class Login extends Component {
 
         const data = await response.json();
 
-        console.log(data.accessToken)
+        // console.log(data.accessToken)
         if (response.ok && data.accessToken && data.message === "Login successful") {
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("token", data.accessToken);

@@ -48,7 +48,9 @@ const loginUser = async (req, res) => {
     console.log("Incoming login request:", req.body); 
     // Find user by email
     const user = await User.findOne({ email });
+
     console.log(user);
+    
     console.log("Incoming login request:", {email}); 
 
     const accessToken = JWT_Token_Provider.generateAccessToken(user);
@@ -92,40 +94,6 @@ const loginUser = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
-
-const refreshAccessToken = async (req, res) => {
-    // 1. Get the refresh token from the request body (client should send it here)
-    const refreshToken = req.body.refreshToken;
-
-    if (!refreshToken) {
-        return res.status(401).json({ error: 'Refresh token is missing.' });
-    }
-
-    // 2. Verify the token
-    const userPayload = JWT_Token_Provider.verifyRefreshToken(refreshToken);
-
-    if (!userPayload) {
-        // Verification failed (expired or invalid signature)
-        return res.status(403).json({ error: 'Invalid or expired refresh token.' });
-    }
-
-    // 3. Optional Security Check (to ensure user still exists)
-    // You could uncomment this to briefly hit the DB, but we keep it commented for the simplest way:
-    /*
-    const user = await User.findById(userPayload.sub);
-    if (!user) {
-         return res.status(404).json({ error: 'User associated with token not found.' });
-    }
-    */
-    
-    // 4. Issue a new Access Token based on the verified payload data
-    // We recreate a minimal user object based on the verified token payload
-    const minimalUser = { _id: userPayload.sub, firstName: userPayload.firstName || 'User' };
-    const newAccessToken = JWT_Token_Provider.generateAccessToken(minimalUser);
-
-    // 5. Success! Return the new access token to the client
-    res.json({ accessToken: newAccessToken });
 };
 
 module.exports = {loginUser, createUser}

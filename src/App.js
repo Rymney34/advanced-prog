@@ -37,6 +37,14 @@ function App() {
                   path="/home"
                   element={<Main/>}
                 />
+                 <Route
+                path="/serviceDetails"
+                 element={<ServiceDetails/>}
+              />
+              <Route
+                path="/BookingTable"
+                 element={<SearchProvider> <BookingTable/></SearchProvider> }
+              />
              </Route>
               
               <Route
@@ -47,18 +55,12 @@ function App() {
                 path="/bookingForm"
                 element={<BookingForm/>}
               />
-              <Route
-                path="/serviceDetails"
-                 element={<ServiceDetails/>}
-              />
+             
                <Route
                 path="/singleBooking"
                  element={<SingleBooking/>}
               />
-              <Route
-                path="/BookingTable"
-                 element={<SearchProvider> <BookingTable/></SearchProvider> }
-              />
+              
               <Route
                 path="/businessInteface"
                  element={<BusinessInterface/> }
