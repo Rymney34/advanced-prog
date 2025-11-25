@@ -1,5 +1,7 @@
 const JWT_Token_Provider = require('../security/auth/jwtTokenProvider');
 
+
+//validate token on the server side
 const validate = async (req,res) =>{
 
     try {
@@ -14,6 +16,8 @@ const validate = async (req,res) =>{
         res.status(400).json({ error: err.message });
     }      
 };
+
+//refresh token func by cheking token and that token is valid
 
 const refreshFunc = async (req,res) =>{
 
@@ -35,4 +39,24 @@ const refreshFunc = async (req,res) =>{
     }      
 };
 
-module.exports = {validate, refreshFunc}
+//logout deleteing cookie refresh token on the server side 
+
+const logout = async (req,res) => {
+
+    try{
+        res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "Strict",
+        });
+
+        return res.status(200).json({ message: "Logg out successfully" });
+    }
+    catch(err){
+        console.error("Error :", err); 
+        res.status(400).json({ error: err.message });
+    }  
+    
+}
+
+module.exports = {validate, refreshFunc, logout}

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {loginUser,createUser } = require('../controllers/userController');
-const { validate, refreshFunc } = require("../controllers/authController");
+const { validate, refreshFunc, logout } = require("../controllers/authController");
 const JWT = require('../security/auth/jwtTokenProvider');
 
 
@@ -18,6 +18,10 @@ router.post('/login', loginUser);
 router.get('/auth/validate', validate);
 
 router.post('/refresh', refreshFunc );
+
+router.post('/logout', logout );
+
+
 
 
 

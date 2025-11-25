@@ -44,3 +44,13 @@ async function tryRefresh() {
     return false;
   }
 }
+
+// logout frontedn requesting logout from the backend and then exporting it 
+export async function logout(){
+  await fetch("/api/logout", {
+  method: "POST",
+  credentials: "include",
+});
+
+localStorage.removeItem("token");
+}

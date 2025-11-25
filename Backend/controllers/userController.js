@@ -1,6 +1,8 @@
 const User = require("../schemas/user");
 const JWT_Token_Provider = require('../security/auth/jwtTokenProvider');
 
+
+//creating user registrating user cheking model 
 const createUser = async(req, res) => {
   try{
     const { firstName, secondName, address, phoneNumber, email, password  } = req.body;
@@ -41,7 +43,7 @@ const createUser = async(req, res) => {
   }
     
 }
-
+//login user by cheking user model 
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -50,7 +52,7 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     console.log(user);
-    
+
     console.log("Incoming login request:", {email}); 
 
     const accessToken = JWT_Token_Provider.generateAccessToken(user);

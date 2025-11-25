@@ -7,6 +7,7 @@ import SearchBar from "../search/searchBar";
 import { SearchContext } from "../context/context";
 import withRouter from '../navigate/navigate';
 import close from '../../resources/images/close.png'
+import { logout } from "../Tools/authFront/auth";
 
 class ProfileModal extends Component {
 
@@ -61,7 +62,8 @@ render (){
                         <li onClick={() => this.props.navigate("/bookingTable")}>Your Bookings</li>
                         <li onClick={() => this.props.navigate("/")}>Your Services</li>
                         <li onClick={() => this.props.navigate("/")}>Customise</li>
-                        <li onClick={() => this.props.navigate("/login")}>Logout</li>
+                        {/* <li onClick={() => this.props.navigate("/login")}>Logout</li> */}
+                        <li onClick={() => logout() && this.props.navigate("/login") }>Logout</li>
                         
                     </ul>
                 </div>
