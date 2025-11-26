@@ -38,35 +38,31 @@ function App() {
                   element={<Main/>}
                 />
                  <Route
-                path="/serviceDetails"
-                 element={<ServiceDetails/>}
-              />
-              <Route
-                path="/BookingTable"
-                 element={<SearchProvider> <BookingTable/></SearchProvider> }
-              />
-             </Route>
+                  path="/serviceDetails"
+                  element={<ServiceDetails/>}
+                />
+                <Route
+                  path="/BookingTable"
+                  element={<SearchProvider> <BookingTable/></SearchProvider> }
+                />
+                <Route
+                    path="/register"
+                    element={<Register/>}
+                />
+                <Route
+                  path="/bookingForm"
+                  element={<BookingForm/>}
+                />
               
-              <Route
-                  path="/register"
-                  element={<Register/>}
-              />
-              <Route
-                path="/bookingForm"
-                element={<BookingForm/>}
-              />
-             
-               <Route
-                path="/singleBooking"
-                 element={<SingleBooking/>}
-              />
-              
-              <Route
+                <Route
+                  path="/singleBooking"
+                  element={<SingleBooking/>}
+                />
+                <Route
                 path="/businessInteface"
                  element={<BusinessInterface/> }
-              />
-     
-     
+                />
+             </Route>
           </Routes>
       </div>
     </Router>

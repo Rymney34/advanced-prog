@@ -62,7 +62,6 @@ render (){
                         <li onClick={() => this.props.navigate("/bookingTable")}>Your Bookings</li>
                         <li onClick={() => this.props.navigate("/")}>Your Services</li>
                         <li onClick={() => this.props.navigate("/")}>Customise</li>
-                        {/* <li onClick={() => this.props.navigate("/login")}>Logout</li> */}
                         <li onClick={() => logout() && this.props.navigate("/login") }>Logout</li>
                         
                     </ul>

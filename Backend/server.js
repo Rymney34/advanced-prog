@@ -7,10 +7,13 @@ const cors = require("cors");
 // const connectDB = require('./config/dbConnect');
 // Connect to MongoDB Databases
 const db = require('./config/dbConnect'); 
+const uploadImage = require("./imageUploader/imageUploader.js");
+
 
 
 const PORT = process.env.PORT || 3001
 const app = express()
+uploadImage()
 // connectDB()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -32,7 +35,7 @@ app.listen (PORT, () => {
 
 app.get('/api', (req, res) => {
     res.json(
-        {message: "Hello from backendkjhgsdfjklhvb sdnfjklxcgb express.js"
+        {message: "Hello from backend"
 
         }
     )
