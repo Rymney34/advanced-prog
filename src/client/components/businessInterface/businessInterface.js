@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage,  useFormikContext} from 'formik';
 import { BrowserRouter as Router, Routes, Route, useNavigate,Link } from "react-router-dom";
-import { dataURLtoFile } from '../Tools/URLToFile/dataURLtoFile';
 import './businessInterface.css'
 import withRouter from '../navigate/navigate';
 import { FileUploader } from "react-drag-drop-files";
@@ -20,11 +19,12 @@ class BusinessInterface extends Component {
     this.state = {
       image:null,
       file: null,
+      url: null,
     }
 
         
     }
-    handleChange =async (file) => {
+    handleChange =async (file, setFieldValue) => {
         // setFile(file);
         console.log(file)
         this.setState({file});
@@ -40,7 +40,10 @@ class BusinessInterface extends Component {
         });
 
         const data = await res.json();
-        console.log("Server response:", data);
+        this.setState({ url: data.url }, () => {
+            setFieldValue("urlImage", data.url); 
+        console.log("Server response:", this.state.url);
+    });
     }catch (err) {
       
       console.warn(err);
@@ -53,13 +56,13 @@ class BusinessInterface extends Component {
     const handleSubmit = async (values, { setSubmitting, setStatus }) => {
         
         try {
-            // const res = await axios.post(`${API_ENDPOINT}`, values);
-            // console.log("Booking Submited:", res.data);
-            // navigate("/");
-           
+            const res = await axios.post("/api/craeteService", values);
+            console.log("Service details Submited:", res.data);
+            <div style={{width: 300 , height: 300, color: "red"}}><h1>Gazoz</h1></div>
+         console.log("values", values);
 
         } catch (error) {
-            // console.error(error);
+            console.error(error);
             
             } finally {
             
@@ -78,8 +81,9 @@ class BusinessInterface extends Component {
                         initialValues={{ 
                             serviceTitle: '',
                             serviceDescription: '',
-                            availableDateTime: '',
-                            image:''
+                            // availableDateTime: '',
+                            urlImage: '' 
+                           
 
                         }}
                         
@@ -90,14 +94,14 @@ class BusinessInterface extends Component {
                                 serviceDescription: Yup.string()
                                             .min(10, "Min 3 characters")
                                             .required('Service Description Field is required'),
-                                availableDateTime: Yup.string()
-                                            .min(2, "Min 2 characters")
-                                            .required('Date is Required'),
+                                // availableDateTime: Yup.string()
+                                //             .min(2, "Min 2 characters")
+                                //             .required('Date is Required'),
                                 price: Yup.string()
                                             .required('Price is Required'),
-                                image: Yup.string()
-                                            .min(2, "Min 2 characters")
-                                            .required('Image is Required'),
+                                // image: Yup.string()
+                                //             .min(2, "Min 2 characters")
+                                //             .required('Image is Required'),
                                 
                                 
                                             
@@ -105,7 +109,7 @@ class BusinessInterface extends Component {
                             onSubmit={handleSubmit}
                     >
 
-                            {({ isSubmitting, status}) => (
+                            {({ isSubmitting, status, setFieldValue}) => (
                         <Form className='serviceForm'>
                             <div style={{
                                 display:"flex", alignItems: "center",
@@ -145,15 +149,16 @@ class BusinessInterface extends Component {
                                         placeholder="Choose Your Imafe"
                                         /> */}
                                          <FileUploader 
-                                                handleChange={this.handleChange} 
-                                                name="file" 
+                                                handleChange={(file) => this.handleChange(file, setFieldValue)}
+                                                name="urlImage" 
+                                                id ="urlImage"
                                                 types={["jpg","jpeg","png","webp"]} 
                                                 label={"Upload or drop a image right here"}
                                                 required
                                                 fileOrFiles={this.state.file}
                                         />
                                    {/* <ErrorMessage className="error" name="image" component="div"/> */}
-                                    <Field
+                                    {/* <Field
                                         as="select"
                                         id="dateTime" 
                                         name="dateTime"
@@ -171,7 +176,7 @@ class BusinessInterface extends Component {
                                         {
                                         
                                         }
-                                    </Field> 
+                                    </Field>  */}
                                         <ErrorMessage className="error" name="dateTime" component="div" />
                                    
                                 </div>
@@ -183,7 +188,7 @@ class BusinessInterface extends Component {
                                  
                                     
                             
-                                    <Button type="submit" text="Submit" isabled={isSubmitting} style={{backgroundColor:"#56D55D", color: "white"}}/>
+                                    <Button type="submit" text="Submit" disabled={isSubmitting} style={{backgroundColor:"#56D55D", color: "white"}}/>
                                 </div>
                             </div>
                             

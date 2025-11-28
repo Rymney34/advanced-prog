@@ -2,11 +2,12 @@ const express = require('express');
 const multer = require ("multer");
 const router = express.Router();
 
-const { uploadMiddleware, setServicePic } = require("../controllers/serviceController.js")
+const { uploadMiddleware, setServicePic, creatService } = require("../controllers/serviceController.js")
 
 // const upload = multer({ storage: multer.memoryStorage() });
 
 router.post("/upload/img", uploadMiddleware,setServicePic);
+router.post("/craeteService", creatService)
 
 
 module.exports = router;

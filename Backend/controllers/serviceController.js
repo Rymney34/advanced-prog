@@ -1,7 +1,7 @@
 
 import multer from "multer";
 import {S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-
+import Services from "../schemas/services.js";
 // connections 
 const s3 = new S3Client({
   region: process.env.S3_BUCKET_REGION,
@@ -41,7 +41,7 @@ export const setServicePic = async (req, res) => {
 
   try {
     const file = req.file;
-    const filename = `image-${Date.now()}`;
+    const filename = `image-${Date.now()}-${file.originalname}`;
     const {url,key} = await putObject(file, filename);
     if(!url || !key){
             return res.status(400).json({
@@ -59,4 +59,39 @@ export const setServicePic = async (req, res) => {
 //middle ware  stoing dat in the ram
 const storage = multer.memoryStorage();
 export const uploadMiddleware = multer({ storage }).single("serviceImage");
+
+
+export const creatService = async(req, res) => {
+
+  try{
+      const { serviceTitle, price,
+        urlImage,
+        serviceDescription } = req.body;
+
+      if (!serviceTitle || !price || !urlImage ||!serviceDescription) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+
+      const newService = await Services ({
+        serviceTitle,
+        price,
+        urlImage,
+        serviceDescription,
+      })
+
+      await newService.save();
+
+      res.status(201).json({
+        _id:newService._id,
+        serviceTitle:newService.serviceTitle,
+        price: newService.price,
+        urlImage: newService.urlImage,
+        serviceDescription: newService.serviceDescription,
+      })
+  }catch (err) {
+     console.error("Error :", err); 
+    res.status(400).json({ error: err.message });
+  }
+}
 
