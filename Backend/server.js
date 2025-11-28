@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const userRoutes = require("./routes/userRoutes.js");
+const serviceRoutes = require("./routes/serviceRoute.js")
 const path = require('path');
 const User = require("./schemas/user");
 const cors = require("cors");
@@ -13,7 +14,7 @@ const uploadImage = require("./imageUploader/imageUploader.js");
 
 const PORT = process.env.PORT || 3001
 const app = express()
-uploadImage()
+// uploadImage()
 // connectDB()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -25,6 +26,7 @@ app.use(cookieParser())
 //calling routes 
 app.use('/api', userRoutes)
 app.use('/api', userRoutes)
+app.use('/api', serviceRoutes)
 
 
 app.listen (PORT, () => {

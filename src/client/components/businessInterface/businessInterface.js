@@ -1,9 +1,10 @@
 import { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage,  useFormikContext} from 'formik';
 import { BrowserRouter as Router, Routes, Route, useNavigate,Link } from "react-router-dom";
+import { dataURLtoFile } from '../Tools/URLToFile/dataURLtoFile';
 import './businessInterface.css'
 import withRouter from '../navigate/navigate';
-
+import { FileUploader } from "react-drag-drop-files";
 
 import axios from 'axios'
 import * as Yup from 'yup';
@@ -17,13 +18,37 @@ class BusinessInterface extends Component {
     constructor(props) {
     super(props);
     this.state = {
-      
+      image:null,
+      file: null,
     }
 
         
     }
+    handleChange =async (file) => {
+        // setFile(file);
+        console.log(file)
+        this.setState({file});
+        
+    try {
+      const formdata = new FormData();
+      formdata.append("serviceImage", file);
+
+        const res = await fetch("/api/upload/img", {
+            method: "POST",
+            body: formdata
+          
+        });
+
+        const data = await res.json();
+        console.log("Server response:", data);
+    }catch (err) {
+      
+      console.warn(err);
+    }
+    }
 
     render (){
+
 
     const handleSubmit = async (values, { setSubmitting, setStatus }) => {
         
@@ -110,7 +135,7 @@ class BusinessInterface extends Component {
                                     
                                     <Field type="text" name="price" id="price" placeHolder="Price"/>
                                         <ErrorMessage className="error" name="price" component="div"/>
-                                    <Field
+                                    {/* <Field
                                         style={{border:"1px solid rgb(118, 118, 118)"}}
                                         name="image"
                                         id="image"
@@ -118,6 +143,14 @@ class BusinessInterface extends Component {
                                         accept="image"
                                         type = "file"
                                         placeholder="Choose Your Imafe"
+                                        /> */}
+                                         <FileUploader 
+                                                handleChange={this.handleChange} 
+                                                name="file" 
+                                                types={["jpg","jpeg","png","webp"]} 
+                                                label={"Upload or drop a image right here"}
+                                                required
+                                                fileOrFiles={this.state.file}
                                         />
                                    {/* <ErrorMessage className="error" name="image" component="div"/> */}
                                     <Field
