@@ -38,7 +38,7 @@ function App() {
                   element={<Main/>}
                 />
                  <Route
-                  path="/serviceDetails"
+                  path="/serviceDetails/:singleService"
                   element={<ServiceDetails/>}
                 />
                 <Route

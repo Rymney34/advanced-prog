@@ -19,9 +19,11 @@ class ServiceDetails extends Component {
     }
         
     }
+    
 
 render (){
-
+    const {location} = this.props;
+    const { title, price, serviceDescription, urlImage } = location.state || {};
 
  
 
@@ -34,19 +36,18 @@ render (){
             </div>
             <div className='detailsWrapper'>
                 <div className='imgWrapper'>
-                    <img alt='service img'src={cleaner}/>
+                    <img style={{ width: "100%", height: "100%",objectFit: "cover",}}alt='service img'src={urlImage}/>
                 </div>
                 <div className='mainDetails'>
-                    <h3 className='serviceTitle'>CLEANING BASIC PLAN</h3>
-                    <p className='serviceDesc'>Our professional cleaning staff provide thorough and reliable cleaning services for homes and businesses. From regular maintenance to deep cleaning, 
-                    our team ensures every space is spotless and hygienic. Booking a service is simple — just choose your preferred date and time for our cleaners to visit,
-                    fill out all the required details in the booking form (such as  service type), and submit your request. Once confirmed, our team will arrive on schedule to deliver a clean, fresh environment you can enjoy.
-                    
+                    <h3 className='serviceTitle'>{` ${title} £${price}`}</h3>
+
+                    <p className='serviceDesc'>
+                        {serviceDescription}
                     </p>
                 </div>
             </div>
             <div className="formWrapper">
-                 <BookingForm  buttonTitle='Book Now' title="Basic Cleaning Plan Booking" desc="We will contact you before booking date to remind you" />
+                 <BookingForm  buttonTitle='Book Now' title={`Book a ${title} Plan`} desc="We will contact you before booking date to remind you" />
                   {/* <BookingForm title="Update Booking Details" buttonTitle="Update" style={{width:1100, height: 500, margin:"0 0 200px 0"}}/> */}
                 
             </div>

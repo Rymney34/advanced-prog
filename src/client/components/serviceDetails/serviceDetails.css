@@ -5,7 +5,12 @@
     font-size: 38px;
 }
 .imgWrapper{
-
+    position: relative;
+    overflow: hidden;
+    width: 220px;
+    height: 240px;
+    border-radius: 15px;
+    border: 1px solid rgb(255, 255, 255);
 }
 
 .detailsWrapper{

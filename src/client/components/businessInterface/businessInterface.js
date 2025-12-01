@@ -17,16 +17,20 @@ class BusinessInterface extends Component {
     constructor(props) {
     super(props);
     this.state = {
-      image:null,
       file: null,
       url: null,
+      success: false,
     }
 
         
     }
+    //logic realated to uploding image and sending it to backend 
     handleChange =async (file, setFieldValue) => {
         // setFile(file);
-        console.log(file)
+         if (this.state.file != null) {
+            alert("Please upload only one image");
+            return;
+        }
         this.setState({file});
         
     try {
@@ -38,6 +42,7 @@ class BusinessInterface extends Component {
             body: formdata
           
         });
+        
 
         const data = await res.json();
         this.setState({ url: data.url }, () => {
@@ -53,13 +58,19 @@ class BusinessInterface extends Component {
     render (){
 
 
-    const handleSubmit = async (values, { setSubmitting, setStatus }) => {
+    const handleSubmit = async (values, { setSubmitting, setStatus, resetForm }) => {
         
         try {
             const res = await axios.post("/api/craeteService", values);
-            console.log("Service details Submited:", res.data);
-            <div style={{width: 300 , height: 300, color: "red"}}><h1>Gazoz</h1></div>
-         console.log("values", values);
+            
+              console.log("res", res.data);
+                 console.log("values", values);
+                 this.setState({
+                    file: null,
+                    success: true
+                })
+                resetForm({values: ''})
+           
 
         } catch (error) {
             console.error(error);
@@ -71,19 +82,32 @@ class BusinessInterface extends Component {
   
 
         return(
+            
             <div className="interfaceWrapper">
                 <Header/>
                  <div className='pagetitle' id='pagetitle' >
                     <h2 style={{margin: "0"}}>Service Form</h2>
+                      {this.state.success && (
+                        <div className="modal-overlay">
+                        <div className="modal">
+                            <h3>Success!</h3>
+                            <p>Your Service Card is created</p>
+                            <button onClick={() => this.setState({ success: false })}>
+                            Close
+                            </button>
+                        </div>
+                        </div>
+                    )}
                 </div>
                 <div className='interfaceBlock'>
+                    
                     <Formik
                         initialValues={{ 
                             serviceTitle: '',
                             serviceDescription: '',
+                            price:'',
                             // availableDateTime: '',
                             urlImage: '' 
-                           
 
                         }}
                         
@@ -99,10 +123,10 @@ class BusinessInterface extends Component {
                                 //             .required('Date is Required'),
                                 price: Yup.string()
                                             .required('Price is Required'),
-                                // image: Yup.string()
-                                //             .min(2, "Min 2 characters")
-                                //             .required('Image is Required'),
-                                
+            // image: Yup.string()
+            //             .min(2, "Min 2 characters")
+            //             .required('Image is Required'),
+            
                                 
                                             
                             })}
@@ -137,27 +161,20 @@ class BusinessInterface extends Component {
                                     <Field type="text" name="serviceTitle" id="serviceTitle" placeHolder="Service Title" />
                                         <ErrorMessage className="error" name="serviceTitle" component="div" />
                                     
-                                    <Field type="text" name="price" id="price" placeHolder="Price"/>
+                                    <Field type="text" name="price" id="price" placeHolder="£ Price"/>
                                         <ErrorMessage className="error" name="price" component="div"/>
-                                    {/* <Field
-                                        style={{border:"1px solid rgb(118, 118, 118)"}}
-                                        name="image"
-                                        id="image"
-                                        // component={FileDragAndDropField}
-                                        accept="image"
-                                        type = "file"
-                                        placeholder="Choose Your Imafe"
-                                        /> */}
+                                  
                                          <FileUploader 
+                                                multiple={false}
                                                 handleChange={(file) => this.handleChange(file, setFieldValue)}
                                                 name="urlImage" 
                                                 id ="urlImage"
                                                 types={["jpg","jpeg","png","webp"]} 
-                                                label={"Upload or drop a image right here"}
+                                                label={"Upload image right here"}
                                                 required
                                                 fileOrFiles={this.state.file}
                                         />
-                                   {/* <ErrorMessage className="error" name="image" component="div"/> */}
+                                   <ErrorMessage className="error" name="urlImage" component="div"/>
                                     {/* <Field
                                         as="select"
                                         id="dateTime" 

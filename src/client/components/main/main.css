@@ -37,7 +37,18 @@
 }
 
 .services{
+   
     display: flex;
-    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.servicesWrapper{
+
+    /* display: flex; */
     margin-bottom: 40px;
+    
+   
 }

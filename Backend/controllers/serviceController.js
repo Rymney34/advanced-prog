@@ -1,6 +1,6 @@
 
 import multer from "multer";
-import {S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import {S3Client, PutObjectCommand, LocationType } from "@aws-sdk/client-s3";
 import Services from "../schemas/services.js";
 // connections 
 const s3 = new S3Client({
@@ -95,3 +95,20 @@ export const creatService = async(req, res) => {
   }
 }
 
+
+export async function getServiceCard(req, res) {
+  try {
+    const serviceDetails = [
+      { $match: {} }  // get all documents
+    ];
+
+    const data = await Services.aggregate(serviceDetails);
+
+    console.log("Backend console - data:", data); // THIS will print in your backend terminal
+
+    res.json(data); // send data back to frontend
+  } catch (error) {
+    console.error("Error in getServiceCard:", error.message);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+}
