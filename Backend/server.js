@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const userRoutes = require("./routes/userRoutes.js");
 const serviceRoutes = require("./routes/serviceRoute.js")
+const bookingRoutes = require("./routes/bookingRoute.js")
 const path = require('path');
 const User = require("./schemas/user");
 const cors = require("cors");
@@ -27,6 +28,7 @@ app.use(cookieParser())
 app.use('/api', userRoutes)
 app.use('/api', userRoutes)
 app.use('/api', serviceRoutes)
+app.use('/api', bookingRoutes)
 
 
 

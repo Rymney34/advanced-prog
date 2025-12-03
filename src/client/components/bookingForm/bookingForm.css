@@ -1,7 +1,7 @@
 .bookingFormWrapper{
     background-color: white;
     width: 968px;
-    height: 460px;
+    height: 700px;
     border-radius: 15px;
 }
 
@@ -41,15 +41,22 @@
 .bookingFields{
     display: flex;
     justify-content: space-around;
-    height: 300px;
+    height: 500px;
 }
 
 .bookingFields input{
-    padding: 5px;
+    padding: 5px  5px 5px 10px ;
     width: 360px;
     height: 35px;
     border-radius: 15px;
+    border: 1px solid grey;
 }
+
+.bookingFields input:hover{
+   
+    border: 1.2px solid rgb(0, 0, 0);
+}
+
 
 #phoneNumber{
     
@@ -60,9 +67,14 @@
 }
 
 #bookingNote{
-    padding: 5px;
+    padding: 10px  5px 5px 15px ;
+    
     border-radius: 15px;
     height: 100px;
+    border: 1px solid grey;
+}
+#bookingNote:hover{
+    border: 1.2px solid rgb(0, 0, 0);
 }
 
 #phoneNumber2{
@@ -71,6 +83,7 @@
 }
 
 .BookingDesc{
+   
     display: flex;
     flex-direction: column;
     margin:10px 0 20px 30px;
@@ -83,6 +96,7 @@
 }
 
 .BookingDesc p{
+    
     font-size: 22px;
     color: rgb(97, 97, 97);
     margin:0;
@@ -103,3 +117,5 @@
 .closeImg:hover {
     transform: scale(1.2);
 }
+
+

@@ -9,6 +9,7 @@ import ServiceDetails from "./client/components/serviceDetails/serviceDetails";
 import SingleBooking from "./client/components/singleBooking/singleBooking";
 import BookingTable from "./client/components/bookingTable/bookingTable";
 import  {SearchProvider} from './client/components/context/context';
+
 import BusinessInterface from "./client/components/businessInterface/businessInterface";
 import ProtectedRoute from "./client/components/Tools/protectedRoute/protected.route";
 
@@ -53,6 +54,13 @@ function App() {
                   path="/bookingForm"
                   element={<BookingForm/>}
                 />
+                {/* <Route
+                  path="/bookingForm"
+                  element={
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <BookingForm/>
+                  </LocalizationProvider>}
+                /> */}
               
                 <Route
                   path="/singleBooking"

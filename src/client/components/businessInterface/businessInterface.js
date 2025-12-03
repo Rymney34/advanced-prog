@@ -87,7 +87,7 @@ class BusinessInterface extends Component {
                 <Header/>
                  <div className='pagetitle' id='pagetitle' >
                     <h2 style={{margin: "0"}}>Service Form</h2>
-                      {this.state.success && (
+                    {this.state.success && (
                         <div className="modal-overlay">
                         <div className="modal">
                             <h3>Success!</h3>

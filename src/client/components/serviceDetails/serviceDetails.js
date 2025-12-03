@@ -47,7 +47,7 @@ render (){
                 </div>
             </div>
             <div className="formWrapper">
-                 <BookingForm  buttonTitle='Book Now' title={`Book a ${title} Plan`} desc="We will contact you before booking date to remind you" />
+                 <BookingForm  buttonTitle='Book Now' serviceTitle = {title} title={`Book a ${title} Plan`} desc="We will contact you before booking date to remind you" />
                   {/* <BookingForm title="Update Booking Details" buttonTitle="Update" style={{width:1100, height: 500, margin:"0 0 200px 0"}}/> */}
                 
             </div>
