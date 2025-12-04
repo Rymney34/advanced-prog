@@ -104,7 +104,7 @@ export async function getServiceCard(req, res) {
 
     const data = await Services.aggregate(serviceDetails);
 
-    console.log("Backend console - data:", data); // THIS will print in your backend terminal
+    console.log("Backend console - data:", data);
 
     res.json(data); // send data back to frontend
   } catch (error) {

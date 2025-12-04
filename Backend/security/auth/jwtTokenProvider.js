@@ -37,6 +37,7 @@ class JWT_Token_Provider {
     verifyRefreshToken(token) {
         try {
             const userPayload = jwt.verify(token, this.REFRESH_Token);
+            console.log(userPayload)
             return userPayload; 
         } catch (err) {
             // Token is invalid or expired

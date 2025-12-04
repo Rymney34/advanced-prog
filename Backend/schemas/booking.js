@@ -10,7 +10,7 @@ const bookingSchema = new mongoose.Schema({
     address: {type:String, required: true},
     // email: { type: String, required: true, unique: true },
     postCode: {type:String, required: true},
-    bookingNote: {type:String, required: true},
+    bookingNote: {type:String},
     date: {type: String,required: true},
     time:  {type: String, required: true},
     phoneNumber:{type:String, required: true},

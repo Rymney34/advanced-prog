@@ -1,11 +1,9 @@
 import { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage,  useFormikContext} from 'formik';
-import { BrowserRouter as Router, Routes, Route, useNavigate,Link } from "react-router-dom";
 import './bookingForm.css'
 import './calendar.css'
+
 import withRouter from '../navigate/navigate';
-import ReactCalendar from 'react-calendar'
-import close from '../../resources/images/close.png'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from "dayjs";
 import {WrapperPicker} from '../dateTimePicker/dateTimePicker.js'
@@ -13,30 +11,23 @@ import {WrapperPicker} from '../dateTimePicker/dateTimePicker.js'
 import axios from 'axios'
 import * as Yup from 'yup';
 import Button from '../Tools/button/button';
-import { set } from 'mongoose';
-
-
 
 
 class BookingForm extends Component {
     
     constructor(props) {
     super(props);
-    this.state = {
-        
-        title: "",
-        desc: "",
-        buttonTitle:"",
-        availableTimes:[],
-        success: false,
-        date: "",
-        
-        
-        content: "",
-        selectedTime:''
-    }
-
-        
+        this.state = {
+            
+            title: "",
+            desc: "",
+            buttonTitle:"",
+            availableTimes:[],
+            success: false,
+            date: "",
+            content: "",
+            selectedTime:''
+        }
     }
 
     render (){
@@ -66,10 +57,6 @@ class BookingForm extends Component {
     const getCalendarData = (selectedDate, setFieldValue) => {
             const jsDate = new Date(selectedDate);
 
-            console.log(jsDate)
-       
-            
-
             const formattedDate = dayjs(jsDate).format("YYYY-MM-DD");
             const formattedTime = dayjs(jsDate).format("HH:mm");
            
@@ -81,8 +68,6 @@ class BookingForm extends Component {
 
     const handleSubmit = async (values, { setSubmitting, setStatus, resetForm}) => {
         console.log("Booking Submited Try:");
-        console.log(values)
-        console.log("title"+values.serviceTitle);
         try {
             const res = await axios.post(`/api/createBooking`, values);
             console.log("Booking Submited:", res.data);
@@ -182,8 +167,8 @@ class BookingForm extends Component {
                                 // email: Yup.string()
                                 //             .email('Wrong Email address')
                                 //             .required('Required Field'),
-                                bookingNote: Yup.string()
-                                            .min(5, "Minium 5 characters")
+                                // bookingNote: Yup.string()
+                                //             .min(5, "Minium 5 characters")
                                             
                             })}
                             onSubmit={handleSubmit}
@@ -218,46 +203,7 @@ class BookingForm extends Component {
                                         <ErrorMessage className="error" name="firstName" component="div" />
                                     <Field type="text" name="secondName" id="secondName" placeHolder="Second Name" />
                                         <ErrorMessage className="error" name="secondName" component="div" />
-                                    {/* <Field
-                                        as="select"
-                                        id="dateTime" 
-                                        name="dateTime"
-                                        className="form-select"
-                                        placeholder="Sponsor"
-                                        
-
-                                        >
-                                        <option value="">
-                                            Please select the Date
-                                        </option>
-                                        <option value="">
-                                        12/12/25
-                                        </option>
-                                        {
-                                        
-                                        }
-                                    </Field>  */}
-                                    {/* <Button type="button" text="Select Booking Date" onClick={() => this.setState({showCalendar: true})} style={{backgroundColor:"#ffffffff", color: "black"}}/>
-                                        
-                                          {this.state.showCalendar == true ? 
-                                            <div className='modalWrapper'>
-                                                <div className='wrapper'>
-                                                    
-                                                    <ReactCalendar 
-                                                        minDate={new Date()}
-                                                        className="reactCalendar"
-                                                        view='month'
-                                                        onClickDay={(date) => console.log(date)}
-                                                    /> 
-                                                    <div>
-                                                        <div className='closeImg' style={{margin: 10}}>
-                                                            {<img onClick={() => this.setState({showCalendar:false})} alt="close" src={close} style={{width:"100%", }}/>}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                               
-                                            </div>: null
-                                        } */}
+                                   
                                         <div className='dataPickerTime'>
                                             <WrapperPicker>
                                                 <DatePicker
@@ -278,7 +224,7 @@ class BookingForm extends Component {
                                                 />
                                             </WrapperPicker>
                                             {this.state.date !== '' ?  <div className='timeWrapper'>
-                                                <p>Select a time for the date {this.state.date}</p>
+                                                <p >Select a time for the date {this.state.date}</p>
                                                 <div className="available-times">
                                                     {this.state.availableTimes.length !== 0 ? this.state.availableTimes.map((time) => (
                                                         <div
@@ -294,19 +240,13 @@ class BookingForm extends Component {
                                                             {time}
                                                         </div>
                                                     ))
-                                                    : <><p>Sorry, We are fully booked, PLEASE PICK ANOTHER DATE </p></>
+                                                    : <><p style={{color: "red"}}>Sorry, We are fully booked, PLEASE PICK ANOTHER DATE </p></>
                                                     }
                                                 </div>
                                             </div>
                                             : <></>
                                             }
-                                           
-                                            
-                                            
                                         </div>
-                                        
-                                        
-
                                         <ErrorMessage className="error" name="time" component="div" />
                                     <Field as="textarea" name="bookingNote" id="bookingNote" placeHolder="Booking Note" />
                                         <ErrorMessage className="error" name="bookingNote" component="div" />

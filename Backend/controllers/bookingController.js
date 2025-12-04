@@ -1,4 +1,4 @@
-
+import jwtTokenProvider from "../security/auth/jwtTokenProvider.js";
 import Booking from "../schemas/booking.js";
 
 export const createBooking = async(req, res) => {
@@ -16,7 +16,7 @@ export const createBooking = async(req, res) => {
         phoneNumber,
       } = req.body;
 
-      if (! serviceTitle || !firstName || !secondName || !address ||!postCode  || !bookingNote || !date ||!time ||  !phoneNumber ) {
+      if (! serviceTitle || !firstName || !secondName || !address ||!postCode || !date ||!time ||  !phoneNumber ) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
@@ -55,22 +55,23 @@ export const createBooking = async(req, res) => {
 }
 
 export async function getBooking(req, res) {
+  const userId = req.user.id; 
+  console.log(userId)
   try {
-    const serviceDetails = [
-      { $match: {} }  // get all documents
+    const bookingDetails = [
+      { $match: {userId} }  // get all documents
     ];
 
-    const data = await Services.aggregate(serviceDetails);
+    const data = await Booking.aggregate(bookingDetails).skip(5).limit(10);
 
-    console.log("Backend console - data:", data); // THIS will print in your backend terminal
+    console.log("Backend console - data:", data); 
 
     res.json(data); // send data back to frontend
   } catch (error) {
-    console.error("Error in getServiceCard:", error.message);
+    console.error("Error in getBookingDetails", error.message);
     res.status(500).json({ error: "Something went wrong" });
   }
 }
-// app.get("/available",
 
 // get date trouh url from fronend then find time within these dates and return allTimes but with no 
 export async function getAvailableTime(req, res) {
@@ -85,15 +86,30 @@ export async function getAvailableTime(req, res) {
 
   const { date } = req.query;;
   try{
-    console.log(date)
 
   const booked = await Booking.find({ date });
-  console.log("its booked" + booked)
   const bookedTimes = booked.map(b => b.time);
-
   const available = allTimes.filter(t => !bookedTimes.includes(t));
 
+  let now = new Date();
+  let day = String(now.getDate()).padStart(2, "0");
+  let month = now.getMonth() + 1;
+  let year = now.getFullYear();
+  let currentDate = `${year}-${month}-${day}`;
+
+  if(date === currentDate){
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    let seconds = now.getSeconds();
+    let timeNow = `${hours}:${minutes}`
+    const newAvailable = available.filter(t => t > timeNow);
+
+    return res.json(newAvailable);
+  }
+  
+
   res.json(available);
+
   }catch(error){
     console.error(error.message)
   }
