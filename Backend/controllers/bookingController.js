@@ -55,6 +55,11 @@ export const createBooking = async(req, res) => {
 }
 
 export async function getBooking(req, res) {
+  const page = parseInt(req.query.page) || 1;
+  const limit  = parseInt(req.query.limit) || 5;
+  const skip = (page - 1) * limit;
+
+  
   const userId = req.user.id; 
   console.log(userId)
   try {
@@ -62,11 +67,21 @@ export async function getBooking(req, res) {
       { $match: {userId} }  // get all documents
     ];
 
-    const data = await Booking.aggregate(bookingDetails).skip(5).limit(10);
+    const data = await Booking.aggregate(bookingDetails)
+      .skip(skip)
+      .limit(limit)
 
+    const total = await Booking.countDocuments();
     console.log("Backend console - data:", data); 
 
-    res.json(data); // send data back to frontend
+    
+    res.json({
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+      data
+    }); // send data back to frontend
   } catch (error) {
     console.error("Error in getBookingDetails", error.message);
     res.status(500).json({ error: "Something went wrong" });
@@ -84,31 +99,31 @@ export async function getAvailableTime(req, res) {
         "20:30",
     ];
 
-  const { date } = req.query;;
-  try{
+    const { date } = req.query;;
+    try{
 
-  const booked = await Booking.find({ date });
-  const bookedTimes = booked.map(b => b.time);
-  const available = allTimes.filter(t => !bookedTimes.includes(t));
+    const booked = await Booking.find({ date });
+    const bookedTimes = booked.map(b => b.time);
+    const available = allTimes.filter(t => !bookedTimes.includes(t));
 
-  let now = new Date();
-  let day = String(now.getDate()).padStart(2, "0");
-  let month = now.getMonth() + 1;
-  let year = now.getFullYear();
-  let currentDate = `${year}-${month}-${day}`;
+    let now = new Date();
+    let day = String(now.getDate()).padStart(2, "0");
+    let month = now.getMonth() + 1;
+    let year = now.getFullYear();
+    let currentDate = `${year}-${month}-${day}`;
 
-  if(date === currentDate){
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
-    let seconds = now.getSeconds();
-    let timeNow = `${hours}:${minutes}`
-    const newAvailable = available.filter(t => t > timeNow);
+    if(date === currentDate){
+      let hours = now.getHours();
+      let minutes = now.getMinutes();
+      let seconds = now.getSeconds();
+      let timeNow = `${hours}:${minutes}`
+      const newAvailable = available.filter(t => t > timeNow);
 
-    return res.json(newAvailable);
-  }
-  
+      return res.json(newAvailable);
+    }
+    
 
-  res.json(available);
+    res.json(available);
 
   }catch(error){
     console.error(error.message)

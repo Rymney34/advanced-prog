@@ -13,8 +13,11 @@ class BookingTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: '',
+      limit: '',
       search: "",
       bookingDetails: [],
+      hasMore: true,
     
     }
         
@@ -22,33 +25,48 @@ class BookingTable extends Component {
 
     
     componentDidMount(){
-      const getBookingDetails = async () => {
+
+      this.page = 1;     // store on the component
+      this.limit = 5;
+
+      this.getBookingDetails();
+     
+      
+    }
+
+     getBookingDetails = async () => {
         try{
-            const res = await fetch(`/api/getBookings`, {
+            const res = await fetch(`/api/getBookings?page=${this.page}&limit=${this.limit}`, {
                 method: "GET",
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                  "Content-Type": "applicaiton/json"},
+                  "Content-Type": "application/json"},
                 
             })
 
             const data = await res.json();
             console.log("Bookind Details", data);
-            this.setState({bookingDetails:data})
-            return data;
+            this.setState(prev => ({
+              bookingDetails: [...prev.bookingDetails, ...data.data],
+              hasMore: this.page < data.totalPages 
+            }));
+
 
         }catch(error){
             console.log(error)
         }
         
       }
-      getBookingDetails()
-    }
+
   render (){
-    
+  
 
     const loadMore = () => {
         // getBookingDetails()
+        this.page += 1;
+        console.log("State "+this.state.bookingDetails)
+        this.getBookingDetails();
+        
     }
     
     const { search } = this.context;
@@ -108,7 +126,8 @@ class BookingTable extends Component {
                         </tbody>
                     </table>
                     <div style={{ display: 'flex', justifyContent: 'center',  margin: '20px 0 0 0'}}>
-                        <Button onClick={loadMore} style={{width: 300}} text="Load More"/>
+                      {this.state.hasMore == true ?  <Button onClick={loadMore} style={{width: 300}} text="Load More"/> : <></>}
+                       
                     </div>
                     
                 </div>
