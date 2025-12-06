@@ -1,5 +1,6 @@
 import jwtTokenProvider from "../security/auth/jwtTokenProvider.js";
 import Booking from "../schemas/booking.js";
+import DeletedBooking from "../schemas/deletedBookings.js";
 import mongoose from"mongoose";
 
 
@@ -153,3 +154,54 @@ export const searchBooking = async(req, res) => {
 
 
 }
+
+export const deleteBooking = async(req, res) => {
+
+   const userId = new mongoose.Types.ObjectId(req.user.sub);
+  const bookingId = new mongoose.Types.ObjectId(req.params.id);
+    console.log("Booking Id " + bookingId)
+    console.log(userId)
+  try {
+  
+
+    const toDeleteBooking = await Booking.findOne({ _id: bookingId, user: userId });
+    // console.log(await Booking.listIndexes());
+
+    console.log(toDeleteBooking)
+    
+
+    if (!toDeleteBooking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    const booking = toDeleteBooking.toObject();
+
+    await DeletedBooking.create({
+      originalBookingId: booking._id,
+      userId: booking.user,
+      serviceTitle: booking.serviceTitle,
+      firstName: booking.firstName,
+      secondName: booking.secondName,
+      address: booking.address,
+      postCode: booking.postCode,
+      bookingNote: booking.bookingNote,
+      date: booking.date,
+      time: booking.time,
+      phoneNumber: booking.phoneNumber,
+    });
+    
+    await Booking.deleteOne({ _id: bookingId });
+
+    res.json({
+          message: "Booking deleted successfully!"
+    }); 
+
+  } catch (error) {
+    console.error("Error in deleted booking", error.message);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+
+
+}
+
+

@@ -71,7 +71,22 @@ class BookingTable extends Component {
       // }
 
       
-
+    Page(details) {
+      this.props.navigate(`/singleBooking/${details._id}`, {
+        state: {
+          _id: details._id,
+          serviceTitle: details.serviceTitle,
+          firstName: details.firstName,
+          secondName: details.secondName,
+          address: details.address,
+          postCode: details.postCode,
+          date: details.date,
+          time: details.time,
+          phoneNumber: details.phoneNumber,
+          bookingNote: details.bookingNote,
+        },
+      });
+    }
   render (){
 
     const reset = () => {
@@ -112,18 +127,17 @@ class BookingTable extends Component {
         }
       }
 
-      function Page (props){
-        let nav = () => withRouter.navigate
-        nav(`/singleBooking/${props}`,
-                  {
-                  state:{
-                    // title:props.title,
-                    // price:props.price,
-                    // serviceDescription:props.serviceDescription,
-                    // urlImage:props.urlImage
-                   }});  
+      // function Page (props){
+      //   console.log("PAGE")
+      //   let nav = () => withRouter.navigate
+      //   nav(`/singleBooking/${props.id}`,
+      //             {
+      //             state:{
+      //               servicetitle:props.servicetitle,
+                  
+      //              }});  
             
-        }
+      //   }
 
 
 
@@ -185,7 +199,7 @@ class BookingTable extends Component {
                                 <td className="tableDescription">{details.time}</td>
                                 <td className="tableDescription">{`+44 ${details.phoneNumber}`}</td>
                                 <td className="tableDescription" >
-                                  <Button style={{margin: 10, width: 115}} onClick={Page(details.id)} text="View Details" />
+                                  <Button style={{margin: 10, width: 115}} onClick={() => this.Page(details)} text="View Details" />
                                 </td>
                             </tr>
                         ))}
@@ -207,4 +221,4 @@ class BookingTable extends Component {
   }
 }
 
-export default BookingTable;
+export default withRouter(BookingTable);

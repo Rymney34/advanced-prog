@@ -1,5 +1,5 @@
 .sinleBookingPageWrapper{
-    height: 100vh;
+    /* height: 100vh; */
 }
 
 
@@ -10,19 +10,22 @@
 }
 
 .detailsBlock{
-    width: 1200px;
-    height: 450px;
+    /* width: 1200px; */
+    /* height: 550px; */
+    
     background: rgba(255, 255, 255, 0.05);
     border-radius: 15px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    
 
 }
 
 .informationBlock{
-    width: 60%;
-    height: 380px;
+    /* width: 60%; */
+    /* height: 480px; */
+    margin: 20px;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.1);
     display: flex;
@@ -36,8 +39,8 @@
 }
 
 .buttonsBlockWrapper{
-    width: 32%;
-    height: 380px;
+    /* width: 32%; */
+    margin: 30px;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.1);
     display: flex;
@@ -48,9 +51,47 @@
 }
 
 .buttonsBlock{
-    width: 300px;
+    width: 250px;
+    margin: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 50px;
+}
+
+.bookingInfo dt{
+    margin: 10px;
+    width: 500px;
+    word-break: break-all;
+}
+
+
+.material-symbols--keyboard-return-rounded {
+    
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin-right: 80%;
+
+    --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='m6.8 13l2.9 2.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-4.6-4.6q-.15-.15-.213-.325T3.426 12t.063-.375t.212-.325l4.6-4.6q.275-.275.7-.275t.7.275t.275.7t-.275.7L6.8 11H19V8q0-.425.288-.712T20 7t.713.288T21 8v3q0 .825-.587 1.413T19 13z'/%3E%3C/svg%3E");
+    background-color: currentColor;
+    -webkit-mask-image: var(--svg);
+    mask-image: var(--svg);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+}
+.material-symbols--keyboard-return-rounded:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+    
+}
+
+.titleWrapper{
+    display: flex;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    /* gap: 500px; */
 }

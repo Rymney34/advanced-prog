@@ -66,7 +66,7 @@ function App() {
                 /> */}
               
                 <Route
-                  path="/singleBooking"
+                  path="/singleBooking/:bookingDetails"
                   element={<SingleBooking/>}
                 />
                 <Route

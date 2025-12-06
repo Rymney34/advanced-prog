@@ -131,7 +131,7 @@ class BookingForm extends Component {
                         <div className="modal-overlay">
                         <div className="modal">
                             <h3>Success!</h3>
-                            <p>Your Service Card is created</p>
+                            <p>Your Booking Submited</p>
                             <button onClick={() => this.setState({ success: false })}>
                             Close
                             </button>
