@@ -2,14 +2,15 @@ const express = require('express');
 const router = express.Router();
 const jwtTokenProvider = require ("../security/auth/jwtTokenProvider.js");
 
-const {getAvailableTime, createBooking, getBooking} = require('../controllers/bookingController.js')
+const {getAvailableTime, searchBooking, createBooking, getBooking} = require('../controllers/bookingController.js')
 
 router.get('/available', getAvailableTime);
-router.post('/createBooking', createBooking);
+router.post('/createBooking',jwtTokenProvider.authenticateToken, createBooking);
 router.get(
   "/getBookings",
-  jwtTokenProvider.authenticateToken, // <--- middleware here
-  getBooking                      // <--- controller
+  jwtTokenProvider.authenticateToken,
+  getBooking                   
 );
+router.get('/searchBooking',jwtTokenProvider.authenticateToken,searchBooking);
 
 module.exports = router;

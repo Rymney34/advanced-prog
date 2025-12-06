@@ -7,7 +7,9 @@ function SearchBar() {
 
   const handleSearch = (e) => {
     e.preventDefault()
-    setSearch(e.target.value.toLowerCase());
+    // setSearch(e.target.value.toLowerCase());
+    setSearch(e.target.value);
+  
   }
 
   return (

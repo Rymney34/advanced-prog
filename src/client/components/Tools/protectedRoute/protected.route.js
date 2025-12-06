@@ -1,24 +1,32 @@
+
+
 import { useEffect, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { isAuthenticated } from "../authFront/auth";
+import { useAuth } from "../authFront/authContext"; //hook
 
-//route wrapper component that checks if there is  token load righ direction otherwise return to login
 const ProtectedRoute = () => {
-  const [auth, setAuth] = useState(null);
+  const [authStatus, setAuthStatus] = useState(null);
   const location = useLocation(); 
+  
+  
+  const { updateToken, token } = useAuth(); 
 
   useEffect(() => {
     const checkAuth = async () => {
-      const result = await isAuthenticated();
-      setAuth(result);
+  
+      const result = await isAuthenticated(updateToken); 
+      
+      setAuthStatus(result);
     };
-
+    
     checkAuth();
-  }, [location.pathname]);
+  }, [location.pathname, token, updateToken]); // Зависимости обновлены
 
-  if (auth === null) return <div>Loading...</div>;
+ 
+  if (authStatus === null) return <div>Loading...</div>;
 
-  if (!auth) return <Navigate to="/login" replace />;
+  if (!authStatus) return <Navigate to="/login" replace />;
 
   return <Outlet />;
 };

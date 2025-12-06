@@ -1,32 +1,33 @@
-export const isAuthenticated = async () => {
+
+export const isAuthenticated = async (onTokenRefreshed) => {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    const refreshed = await tryRefresh();
+
+    const refreshed = await tryRefresh(onTokenRefreshed); 
     return refreshed;
   }
 
-  // Try validate token
+
   const response = await fetch("/api/auth/validate", {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  // Token valid OK
   if (response.ok) return true;
 
-// expired try refresh
+
   if (response.status === 403) {
-    const refreshed = await tryRefresh();
-  
+
+    const refreshed = await tryRefresh(onTokenRefreshed);
     return refreshed;
   }
 
   return false;
 };
 
-//  refresh function
-async function tryRefresh() {
+
+async function tryRefresh(onTokenRefreshed) {
   try {
     const refreshResponse = await fetch("/api/refresh", {
       method: "POST",
@@ -36,7 +37,8 @@ async function tryRefresh() {
     if (!refreshResponse.ok) return false;
 
     const data = await refreshResponse.json();
-    localStorage.setItem("token", data.accessToken);
+    
+    onTokenRefreshed(data.accessToken); 
     
     return true;
 
@@ -44,7 +46,6 @@ async function tryRefresh() {
     return false;
   }
 }
-
 // logout frontedn requesting logout from the backend and then exporting it 
 export async function logout(){
   await fetch("/api/logout", {
@@ -52,5 +53,5 @@ export async function logout(){
   credentials: "include",
 });
 
-localStorage.removeItem("token");
+// localStorage.removeItem("token");
 }

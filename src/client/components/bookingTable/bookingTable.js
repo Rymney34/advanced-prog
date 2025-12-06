@@ -5,9 +5,10 @@ import Button from "../Tools/button/button";
 import Header from "../header/header";
 import SearchBar from "../search/searchBar";
 import { SearchContext } from "../context/context";
+import withRouter from '../navigate/navigate';
 
 class BookingTable extends Component {
-
+    
     static contextType = SearchContext;
 
   constructor(props) {
@@ -23,7 +24,7 @@ class BookingTable extends Component {
         
     }
 
-    
+    // load on then start of the page 
     componentDidMount(){
 
       this.page = 1;     // store on the component
@@ -45,6 +46,13 @@ class BookingTable extends Component {
             })
 
             const data = await res.json();
+
+
+            if (!res.ok || !Array.isArray(data.data)) {
+              window.location.reload(false);
+              this.setState({ bookingDetails: []}); 
+              return;
+            }
             console.log("Bookind Details", data);
             this.setState(prev => ({
               bookingDetails: [...prev.bookingDetails, ...data.data],
@@ -58,7 +66,18 @@ class BookingTable extends Component {
         
       }
 
+      // handleCallBack = (childData) ={
+      //   this.setState.
+      // }
+
+      
+
   render (){
+
+    const reset = () => {
+      this.setState({bookingDetails:[]})
+      this.getBookingDetails();
+    }
   
 
     const loadMore = () => {
@@ -72,6 +91,42 @@ class BookingTable extends Component {
     const { search } = this.context;
 
    
+    const searchBooking = async () => {
+        try{
+            const res = await fetch(`/api/searchBooking?search=${search}`, {
+                method: "GET",
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                  "Content-Type": "application/json"},
+                
+            })
+
+            const data = await res.json();
+            
+            console.log(data)
+            this.setState({
+              bookingDetails: data.data
+            });
+        }catch(error){
+            console.log(error)
+        }
+      }
+
+      function Page (props){
+        let nav = () => withRouter.navigate
+        nav(`/singleBooking/${props}`,
+                  {
+                  state:{
+                    // title:props.title,
+                    // price:props.price,
+                    // serviceDescription:props.serviceDescription,
+                    // urlImage:props.urlImage
+                   }});  
+            
+        }
+
+
+
     return (
         
         <div className='bookingTablePageWrapper'>
@@ -79,8 +134,18 @@ class BookingTable extends Component {
             <div className='pagetitle'>
                 <h2>YOUR BOOKINGS</h2>
             </div>
+            <div className="searchParagraph">
+               <p>Search by Title, Surname, Address, Postcode and Press Search</p>
+            </div>
             <div className="serachBookingsWrapper">
+             
                 <SearchBar/>
+                <button style={{borderRadius: 15, width: 80, height: 40}} onClick={searchBooking}>
+                  Search
+                </button>
+                <button style={{borderRadius: 15, width: 80, height: 40}} onClick={reset}>
+                  Reset
+                </button>
             </div>
             <div className="bookingTableWrapperBlock">
                 <div className="tableWrapper">
@@ -119,7 +184,9 @@ class BookingTable extends Component {
                                 <td className="tableDescription"  >{details.date}</td>
                                 <td className="tableDescription">{details.time}</td>
                                 <td className="tableDescription">{`+44 ${details.phoneNumber}`}</td>
-                                <td className="tableDescription" ><Button style={{margin: 10, width: 115}} text="View Details" /></td>
+                                <td className="tableDescription" >
+                                  <Button style={{margin: 10, width: 115}} onClick={Page(details.id)} text="View Details" />
+                                </td>
                             </tr>
                         ))}
 

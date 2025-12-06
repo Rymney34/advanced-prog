@@ -9,6 +9,7 @@ import ServiceDetails from "./client/components/serviceDetails/serviceDetails";
 import SingleBooking from "./client/components/singleBooking/singleBooking";
 import BookingTable from "./client/components/bookingTable/bookingTable";
 import  {SearchProvider} from './client/components/context/context';
+import { AuthProvider } from './client/components/Tools/authFront/authContext';
 
 import BusinessInterface from "./client/components/businessInterface/businessInterface";
 import ProtectedRoute from "./client/components/Tools/protectedRoute/protected.route";
@@ -17,6 +18,7 @@ function App() {
 
    const [data, setData] = useState()
   return (
+    <AuthProvider>
     <Router>
       <div className="App">
           <link rel="preconnect" href="https://fonts.googleapis.com"></link>
@@ -33,6 +35,10 @@ function App() {
                   path="/login"
                   element={<Login/>}
               />
+              <Route
+                    path="/register"
+                    element={<Register/>}
+                />
              <Route element ={<ProtectedRoute/>}>
                 <Route
                   path="/home"
@@ -46,10 +52,7 @@ function App() {
                   path="/BookingTable"
                   element={<SearchProvider> <BookingTable/></SearchProvider> }
                 />
-                <Route
-                    path="/register"
-                    element={<Register/>}
-                />
+                
                 <Route
                   path="/bookingForm"
                   element={<BookingForm/>}
@@ -74,7 +77,7 @@ function App() {
           </Routes>
       </div>
     </Router>
-    
+</AuthProvider>    
   );
 }
 

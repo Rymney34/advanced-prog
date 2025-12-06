@@ -69,7 +69,14 @@ class BookingForm extends Component {
     const handleSubmit = async (values, { setSubmitting, setStatus, resetForm}) => {
         console.log("Booking Submited Try:");
         try {
-            const res = await axios.post(`/api/createBooking`, values);
+            const res = await axios.post(`/api/createBooking`, values,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('token'),
+                       
+                    },
+                }
+            );
             console.log("Booking Submited:", res.data);
            
             // navigate("/");

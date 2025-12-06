@@ -5,7 +5,7 @@ const express = require('express');
 class JWT_Token_Provider {
     constructor(){
     this.JWT_Token = process.env.ACCESS_TOKEN_SECRET
-    this.ACCESS_Token_Expires = '10m'
+    this.ACCESS_Token_Expires = '20s'
     this.REFRESH_Token = process.env.REFRESH_TOKEN
     this.REFRESH_Token_Expires = "1d"
     }
@@ -13,7 +13,7 @@ class JWT_Token_Provider {
     // generatingAccessToken function
     generateAccessToken(user){
         const payload = {
-            sub: user.id,
+            sub: user.id || user.sub,
             firstName: user.firstName
         }
 
@@ -25,11 +25,12 @@ class JWT_Token_Provider {
     }
     // generating Refresh token method passing expiring data 
     generateRefreshToken(user){
+        const payload = {
+            sub: user.id || user.sub,
+            firstName: user.firstName
+        }
         return jwt.sign(
-            {sub: user.id,
-             firstName: user.firstName
-            },
-            this.REFRESH_Token,
+            payload, this.REFRESH_Token,
             {expiresIn:this.REFRESH_Token_Expires}
         )
     }
@@ -54,14 +55,14 @@ class JWT_Token_Provider {
 
         console.log(token)
         if (!token ) {
-            return res.status(401).json({ message: 'Token missing' });
+            return res.status(401).json({data:[], message: 'Token missing' });
         }
   // verification if the token is the proper token
         jwt.verify(token, JWT_Token, (err, user) => {
             // console.log('fsdfsdf FF '+token)
             if (err) {
                
-                return res.status(403).json({ message: 'Invalid or expired token' });
+                return res.status(403).json({ data:[],message: 'Invalid or expired token' });
             }
 
             req.user = user; 

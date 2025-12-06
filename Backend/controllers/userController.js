@@ -51,9 +51,9 @@ const loginUser = async (req, res) => {
     // Find user by email
     const user = await User.findOne({ email });
 
-    console.log(user);
+    // console.log(user);
 
-    console.log("Incoming login request:", {email}); 
+    // console.log("Incoming login request:", {email}); 
 
     const accessToken = JWT_Token_Provider.generateAccessToken(user);
     const refreshToken = JWT_Token_Provider.generateRefreshToken(user);

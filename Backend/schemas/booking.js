@@ -3,6 +3,11 @@ const { connectDB } = require("../config/dbConnect");
 
 // model for services
 const bookingSchema = new mongoose.Schema({
+    user : {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
     serviceTitle:{type: String, required: true},
     firstName: { type: String, required: true},
@@ -18,6 +23,12 @@ const bookingSchema = new mongoose.Schema({
   versionKey: false,
   collection: 'bookings' 
   
+});
+bookingSchema.index({ 
+  serviceTitle: "text",
+  secondName: "text",
+  postCode: "text",
+  address: "text", 
 });
 
 const Booking = mongoose.model("bookings", bookingSchema); 

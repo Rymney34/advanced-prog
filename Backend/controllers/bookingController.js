@@ -1,10 +1,14 @@
 import jwtTokenProvider from "../security/auth/jwtTokenProvider.js";
 import Booking from "../schemas/booking.js";
+import mongoose from"mongoose";
+
+
 
 export const createBooking = async(req, res) => {
 
   try{
       const {
+        
         serviceTitle,
         firstName,
         secondName,
@@ -19,34 +23,24 @@ export const createBooking = async(req, res) => {
       if (! serviceTitle || !firstName || !secondName || !address ||!postCode || !date ||!time ||  !phoneNumber ) {
         return res.status(400).json({ error: "Missing required fields" });
       }
+   
 
+    const newBooking = new Booking({
+      user: req.user.sub,  
+      serviceTitle,
+      firstName,
+      secondName,
+      address,
+      postCode,
+      bookingNote,
+      date,
+      time,
+      phoneNumber,
+    });
 
-      const newBooking = await Booking({
-        serviceTitle,
-        firstName,
-        secondName,
-        address,
-        postCode,
-        bookingNote,
-        date,
-        time,
-        phoneNumber,
-      })
+    await newBooking.save();
 
-      await newBooking.save();
-
-      res.status(201).json({
-        _id: newBooking._id,
-        serviceTitle: newBooking.serviceTitle,
-        firstName: newBooking.firstName,
-        secondName: newBooking.secondName,
-        address: newBooking.address,
-        postCode: newBooking.postCode,
-        bookingNote: newBooking.bookingNote,
-        date: newBooking.date,
-        time: newBooking.time,
-        phoneNumber:newBooking.phoneNumber,
-      })
+    res.status(201).json(newBooking);
 
   }catch (err) {
      console.error("Error :", err); 
@@ -60,20 +54,18 @@ export async function getBooking(req, res) {
   const skip = (page - 1) * limit;
 
   
-  const userId = req.user.id; 
-  console.log(userId)
+  const userId = req.user.sub; 
+ 
   try {
-    const bookingDetails = [
-      { $match: {userId} }  // get all documents
-    ];
+    const bookingDetails = { user: userId }
 
-    const data = await Booking.aggregate(bookingDetails)
+    const data = await Booking.find(bookingDetails)
       .skip(skip)
       .limit(limit)
 
-    const total = await Booking.countDocuments();
-    console.log("Backend console - data:", data); 
-
+    const total = await Booking.countDocuments(bookingDetails);
+    // console.log("Backend console - data:", data); 
+    // console.log(await Booking.listIndexes());
     
     res.json({
       page,
@@ -128,7 +120,36 @@ export async function getAvailableTime(req, res) {
   }catch(error){
     console.error(error.message)
   }
-  
-
-
 };
+
+export const searchBooking = async(req, res) => {
+
+  const userId = new mongoose.Types.ObjectId(req.user.sub);
+  const s = req.query.search
+    console.log(s)
+  try {
+    const searchDetails = [
+      {
+    $match: {
+      user: userId,
+      $text: { $search: s },
+    }
+  }
+      
+     
+    ];
+
+    const data = await Booking.aggregate(searchDetails)
+    // console.log(await Booking.listIndexes());
+    console.log(data)
+    
+    res.json({
+      data
+    }); // send data back to frontend
+  } catch (error) {
+    console.error("Error in searchBookings", error.message);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+
+
+}
