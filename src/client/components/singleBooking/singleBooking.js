@@ -32,10 +32,12 @@ class SingleBooking extends Component {
 
     handleClose = () => {
                     this.setState({ open: false });
+                    document.body.style.overflow = 'unset';
                 };
         
     handleOpen = () => {
                     this.setState({ open: true });
+                    document.body.style.overflow = 'hidden';
                 };
 
     cancelBooking = (id) => {

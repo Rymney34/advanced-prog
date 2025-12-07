@@ -21,6 +21,16 @@ class UpdateBooking extends Component {
     }
         
     }
+    componentDidMount() {    
+      if(this.state.isOpen){
+        document.body.style.overflow = 'hidden';
+      }    
+    }
+
+    componentWillUnmount() {
+        document.body.style.overflow = 'unset';
+    }
+
     
 
     render (){
@@ -34,19 +44,32 @@ class UpdateBooking extends Component {
         
         <div className='updateBookingModal' 
 
-                style={{
+                // style={{
                     
-                    position: "fixed",
-                    zIndex: 2,
-                    // right: "110px",
-                    // top: "140px",
-                    display: "flex",
+                //     position: "fixed",
+                //     zIndex: 2,
+                //     width: "100vw",
+                //     height: "100vh",
+                //     background: "black",
+                //     // right: "110px",
+                //     // top: "140px",
+                //     display: "flex",
                     
-                    width: "100vw",
+                //     // width: "100vw",
                    
-                }}>
+                // }}
+                >
                      
-            <BookingForm content={<img onClick={this.props.onClose} src={close} style={{width:"100%"}}/>}close={close} isOpen={this.props.isOpen} onClose={this.props.onClose} title="Update Booking Details" buttonTitle="Update" style={{width:1100, height: 500, margin:"0 0 200px 0"}}/>
+            <BookingForm 
+              content={<img onClick={this.props.onClose} src={close}
+              style={{width:"100%"}}/>}
+              close={close} 
+              isOpen={this.props.isOpen} 
+              onClose={this.props.onClose} 
+              title="Update Booking Details" 
+              buttonTitle="Update"
+              style={{width:1000, margin:"0 0 0px 0"}}
+              />
            
 
         </div>

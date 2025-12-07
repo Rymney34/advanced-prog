@@ -30,6 +30,8 @@ class BookingForm extends Component {
         }
     }
 
+    
+
     render (){
     
 
@@ -106,22 +108,6 @@ class BookingForm extends Component {
             
         }
   };
-//    const handleSubmit = (values, { setSubmitting, setStatus }) => {
-//         console.log("Booking Submited Try:");
-//         try {
-            
-//             console.log("Booking Submited:", values)
-//             // navigate("/");
-           
-
-//         } catch (error) {
-//             console.error(error);
-            
-//             } finally {
-            
-//         }
-//   };
-
 
     const nationalNumberRegex = /^[1-9](?:\s?\d){8,9}$/;
 
