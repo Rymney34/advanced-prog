@@ -92,7 +92,7 @@ export async function getAvailableTime(req, res) {
         "20:30",
     ];
 
-    const { date } = req.query;;
+    const { date, update, bookedTime} = req.query;;
     try{
 
     const booked = await Booking.find({ date });
@@ -105,11 +105,34 @@ export async function getAvailableTime(req, res) {
     let year = now.getFullYear();
     let currentDate = `${year}-${month}-${day}`;
 
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    let seconds = now.getSeconds();
+    let timeNow = `${hours}:${minutes}`
+
+    
+
+    if(update === "true"){
+      let availableTimes = allTimes.filter(time => {
+              
+              if (bookedTimes.includes(time) && time !== bookedTime) {
+                  return false;
+              }
+
+
+              if (date === currentDate && time < timeNow) {
+                  return false;
+              }
+
+              return true;
+      });
+
+          return res.json(availableTimes);
+    }
+
+      //remove time for TODAY if time already is gone 
     if(date === currentDate){
-      let hours = now.getHours();
-      let minutes = now.getMinutes();
-      let seconds = now.getSeconds();
-      let timeNow = `${hours}:${minutes}`
+     
       const newAvailable = available.filter(t => t > timeNow);
 
       return res.json(newAvailable);
@@ -127,13 +150,18 @@ export const searchBooking = async(req, res) => {
 
   const userId = new mongoose.Types.ObjectId(req.user.sub);
   const s = req.query.search
-    console.log(s)
+
   try {
     const searchDetails = [
       {
     $match: {
       user: userId,
-      $text: { $search: s },
+      $or: [
+        { serviceTitle: { $regex: s, $options: "i" } },
+        { secondName:   { $regex: s, $options: "i" } },
+        { address:      { $regex: s, $options: "i" } },
+        { postCode:     { $regex: s, $options: "i" } },
+      ]
     }
   }
       
@@ -142,7 +170,7 @@ export const searchBooking = async(req, res) => {
 
     const data = await Booking.aggregate(searchDetails)
     // console.log(await Booking.listIndexes());
-    console.log(data)
+    // console.log(data)
     
     res.json({
       data
@@ -202,6 +230,59 @@ export const deleteBooking = async(req, res) => {
   }
 
 
+}
+
+export const updateBooking = async (req, res) => {
+  try {
+    const userId = new mongoose.Types.ObjectId(req.user.sub);
+    // const bookingId = new mongoose.Types.ObjectId(req.params._id);
+    // console.log("Booking Id " + bookingId)
+    console.log(userId)
+
+    const { 
+        _id,
+        serviceTitle, 
+        firstName,
+        secondName,
+        address,
+        postCode,
+        bookingNote,
+        date,
+        time,
+        phoneNumber,
+        } = req.body;
+
+      if (! serviceTitle || !firstName || !secondName || !address ||!postCode || !date ||!time ||  !phoneNumber ) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+    const updatingBooking = await Booking.replaceOne({ _id: _id, user: userId },{
+      // _id: _id,
+      user: userId,  
+      serviceTitle:serviceTitle,
+      firstName:firstName,
+      secondName:secondName,
+      address:address,
+      postCode:postCode,
+      bookingNote:bookingNote,
+      date:date,
+      time:time,
+      phoneNumber:phoneNumber,
+    });
+
+    if (!updatingBooking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    res.json({
+          close: true,
+          message: "Booking Updated successfully!"
+    }); 
+
+  } catch (error) {
+    console.error("Error in deleted booking", error.message);
+    res.status(500).json({ error: "Something went wrong" });
+  }
 }
 
 

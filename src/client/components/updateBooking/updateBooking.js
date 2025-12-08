@@ -1,10 +1,12 @@
 import "./updateBooking.css";
 
 import { Component } from 'react';
+import withRouter from '../navigate/navigate';
 import Button from "../Tools/button/button";
 import Header from "../header/header";
 import BookingForm from "../bookingForm/bookingForm";
 import close from '../../resources/images/close.png'
+import axios from 'axios'
 
 class UpdateBooking extends Component {
 
@@ -17,6 +19,8 @@ class UpdateBooking extends Component {
         isOpen: "", 
         onClose: "", 
         children: "",
+        fromChild: "",
+        close: false,
         // open:""
     }
         
@@ -30,6 +34,28 @@ class UpdateBooking extends Component {
     componentWillUnmount() {
         document.body.style.overflow = 'unset';
     }
+    updateBookingDetails = async(data) => {
+         const res = await axios.post(`/api/updateBooking`, data,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('token'),
+                       
+                    },
+                }
+            );
+            this.setState({close: res.data.close})
+            // res.data.close
+         console.log("Booking Submited:", res.data);
+    }
+    
+
+    handleChildData = (data) => {
+    console.log(data);
+      this.setState({fromChild:data});
+      this.updateBookingDetails(data)
+    };
+
+    
 
     
 
@@ -59,8 +85,25 @@ class UpdateBooking extends Component {
                    
                 // }}
                 >
+                   {this.state.close && (
+                        <div className="modal-overlay">
+                        <div className="modal">
+                            <h3>Success!</h3>
+                            <p>Your Booking Updated</p>
+                            <button onClick={() => {
+
+                              this.props.navigate(-1)
+                              this.setState({ close: false })
+                              
+                              }}>
+                            Close
+                            </button>
+                        </div>
+                        </div>
+                    )}
                      
             <BookingForm 
+              onDataFromChild={this.handleChildData}
               content={<img onClick={this.props.onClose} src={close}
               style={{width:"100%"}}/>}
               close={close} 
@@ -69,6 +112,20 @@ class UpdateBooking extends Component {
               title="Update Booking Details" 
               buttonTitle="Update"
               style={{width:1000, margin:"0 0 0px 0"}}
+              initialData={{
+                  update: true,
+                  _id: this.props.initialData?._id,
+                  serviceTitle: this.props.initialData?.serviceTitle,
+                  firstName: this.props.initialData?.firstName || '',
+                  secondName: this.props.initialData?.secondName || '',
+                  address: this.props.initialData?.address || '',
+                  postCode: this.props.initialData?.postCode || '',
+                  date: this.props.initialData?.date || null,
+                  time: this.props.initialData?.time || null,
+                  phoneNumber: this.props.initialData?.phoneNumber || '',
+                  bookingNote: this.props.initialData?.bookingNote || ''
+              }}
+
               />
            
 
@@ -77,4 +134,4 @@ class UpdateBooking extends Component {
   }
 }
 
-export default UpdateBooking;
+export default withRouter(UpdateBooking);

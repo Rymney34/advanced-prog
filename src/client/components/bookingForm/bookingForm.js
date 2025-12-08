@@ -26,25 +26,56 @@ class BookingForm extends Component {
             success: false,
             date: "",
             content: "",
-            selectedTime:''
+            selectedTime:' ',
+            update: false,
+            dateSelectedByUser: false,
         }
     }
 
-    
 
-    render (){
     
+    componentDidMount() {
 
-    const getTime = async (date) => {
+            
+    
+    let now = new Date();
+    let day = String(now.getDate()).padStart(2, "0");
+    let month = now.getMonth() + 1;
+    let year = now.getFullYear();
+    let currentDate = `${year}-${month}-${day}`;
+
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    let seconds = now.getSeconds();
+    let timeNow = `${hours}:${minutes}`
+
+        if (this.props.initialData?.date) {
+            const date = this.props.initialData.date;
+            const time1 = this.props.initialData.time
+            date === currentDate && time1 < timeNow ? this.setState({ 
+                // date: date,
+                selectedTime: ""
+            }) : this.setState({ 
+                date: date,
+                selectedTime: this.props.initialData.time 
+            });
+            this.getTime(date)
+        }
+    }
+
+    getTime = async (date) => {
+        console.log(this.state.selectedTime)
+            const bookedTime = this.props.initialData?.time
+            const isUpdate = this.props.initialData?.update === true;
         try{
-            const res = await fetch(`/api/available?date=${encodeURIComponent(date)}`, {
+           
+            const res = await fetch(`/api/available?date=${encodeURIComponent(date)}&update=${isUpdate}&bookedTime=${bookedTime}`, {
                 method: "GET",
                 headers: {"Content-Type": "applicaiton/json"},
                 
             })
 
             const data = await res.json();
-            console.log("Available times:", data);
             this.setState({availableTimes:data})
             return data;
 
@@ -53,22 +84,39 @@ class BookingForm extends Component {
         }
         
     }
-    
 
-    // transforming data into date and time 
-    const getCalendarData = (selectedDate, setFieldValue) => {
+    getCalendarData = (selectedDate, setFieldValue) => {
+        
             const jsDate = new Date(selectedDate);
 
             const formattedDate = dayjs(jsDate).format("YYYY-MM-DD");
-            const formattedTime = dayjs(jsDate).format("HH:mm");
-           
+            // const formattedTime = dayjs(jsDate).format("HH:mm");
+            
+            this.setState({ 
+                date: formattedDate,
+                dateSelectedByUser: true // Помечаем, что дата выбрана
+            });
             setFieldValue("date", formattedDate)
-            this.setState({date:formattedDate})
-            getTime(formattedDate)
+            
+            this.getTime(formattedDate)
+    }
+
+    handleUpdateSubmit = (values) => {
+
+        this.props.onDataFromChild(values);
+    }
+
+    handleFinalSubmit = async (values, tools) => {
+        const isUpdate = this.props.initialData?.update === true;
+        if(isUpdate){
+            return this.handleUpdateSubmit(values)
+           
+        }else{
+            return this.handleSubmit(values, tools)
+        }
     }
     
-
-    const handleSubmit = async (values, { setSubmitting, setStatus, resetForm}) => {
+    handleSubmit = async (values, { setSubmitting, setStatus, resetForm}) => {
         console.log("Booking Submited Try:");
         try {
             const res = await axios.post(`/api/createBooking`, values,
@@ -88,7 +136,7 @@ class BookingForm extends Component {
                     selectedTime: ""
                 })
            resetForm({values: {
-                serviceTitle: this.props.serviceTitle,   // KEEP TITLE
+                serviceTitle: this.props.serviceTitle, 
                 firstName: "",
                 secondName: "",
                 address: "",
@@ -107,12 +155,20 @@ class BookingForm extends Component {
             } finally {
             
         }
-  };
+    };
+
+    
+
+    render (){
+
+    // transforming data into date and time 
 
     const nationalNumberRegex = /^[1-9](?:\s?\d){8,9}$/;
+  
 
         return(
             <div className="bookingFormWrapper" style={this.props.style}>
+                
                 {this.state.success && (
                         <div className="modal-overlay">
                         <div className="modal">
@@ -126,19 +182,23 @@ class BookingForm extends Component {
                     )}
                 <div className='bookingFormInner'>
                     <Formik
+                    
                         initialValues={{ 
-                            serviceTitle: this.props.serviceTitle,
-                            firstName: '',
-                            secondName: '',
-                            address: '',
-                            postCode: '',
+                            _id: this.props.initialData?._id,
+                            serviceTitle: this.props.serviceTitle || this.props.initialData?.serviceTitle,
                             // dateTime: null,
-                            date: null,
-                            time: null,
-                            phoneNumber:'',
-                            bookingNote: ''
-
+                            firstName: this.props.initialData?.firstName || '',
+                            secondName: this.props.initialData?.secondName || '',
+                            address: this.props.initialData?.address || '',
+                            postCode: this.props.initialData?.postCode || '',
+                            date: this.state.dateSelectedByUser 
+                                ? this.state.date 
+                                : this.props.initialData?.date || null,
+                            time: this.state.selectedTime,
+                            phoneNumber: this.props.initialData?.phoneNumber || '',
+                            bookingNote: this.props.initialData?.bookingNote || ''
                         }}
+                        enableReinitialize={this.props.initialData?.update === true}
                         
                             validationSchema = {Yup.object({
                                 firstName: Yup.string()
@@ -164,11 +224,15 @@ class BookingForm extends Component {
                                 //             .min(5, "Minium 5 characters")
                                             
                             })}
-                            onSubmit={handleSubmit}
+                            onSubmit={this.handleFinalSubmit }
+                            
                     >
 
                          {({ values, isSubmitting, status, setFieldValue}) => (
+                            
+
                         <Form className='bookingForm'>
+                        
                             <div style={{
                                 display:"flex", alignItems: "center",
                                 justifyContent: "space-between"
@@ -208,9 +272,9 @@ class BookingForm extends Component {
                                                     label="Select date"
                                                     value={values.date ? dayjs(values.date) : null}
                                                     onChange={(newValue) => {
-                                                        // setFieldValue("dateTime", value)
-                                                        getCalendarData(newValue, setFieldValue)
-                                                        
+                                                        // this.setState({date:values.date})
+                                                        this.getCalendarData(newValue, setFieldValue)
+                                                        // this.setState({dateSelectedByUser: true})
 
                                                     }}
                                                     
@@ -226,8 +290,11 @@ class BookingForm extends Component {
                                                             key={time}
                                                             className={`time-slot ${this.state.selectedTime === time ? "selected" : ""}`}
                                                             onClick={() => {
+                                                                console.log(values.date)
+                                                                 const currentDate = values.date;
                                                                 this.setState({ selectedTime: time });
                                                                 setFieldValue("time", time);
+                                                                // setFieldValue("date", currentDate);
                                                             }}
                                                         >
                                                             {time}

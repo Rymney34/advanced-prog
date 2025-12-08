@@ -57,7 +57,7 @@ class Login extends Component {
           localStorage.setItem("token", data.accessToken);
           // localStorage.setItem("refreshToken", data.refreshToken);
           setStatus({ success: "Login successful!" });
-          console.log("Logged in user:", data.user);
+          // console.log("Logged in user:", data.user);
             this.props.navigate("/home");
         } else {
           setStatus({ error: data.message || "Invalid credentials" });

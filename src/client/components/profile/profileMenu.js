@@ -20,13 +20,41 @@ class ProfileModal extends Component {
         isOpen: "", 
         onClose: "", 
         children: "",
+        adminView: false,
     }
         
     }
+    componentDidMount() {
+    this.getAdmin();
+    }  
+
+    getAdmin = async() => {
+        try{
+           
+            const res = await fetch("/api/isAdmin",{
+                method: "GET",
+                 headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('token'),
+                       
+                    },
+                
+            })
+
+            const data = await res.json();
+            this.setState({adminView: data.isAdmin})
+            // console.log(data.isAdmin)
+            // return data;
+
+        }catch(error){
+            console.log(error)
+        }
+    }
     
-
+  
 render (){
-
+    // const gazoz = localStorage.getItem('token')
+    // console.log(this.state.adminView)
+    // this.getAdmin()
     if (!this.props.isOpen) return null;
 
     return (
@@ -60,8 +88,9 @@ render (){
                         </li>
                         <li onClick={() => this.props.navigate("/home")}>Home</li>
                         <li onClick={() => this.props.navigate("/bookingTable")}>Your Bookings</li>
-                        <li onClick={() => this.props.navigate("/")}>Your Services</li>
-                        <li onClick={() => this.props.navigate("/")}>Customise</li>
+                        {this.state.adminView === true ? <li onClick={() => this.props.navigate("/businessInteface")}>Your Services</li> : <></>}
+                        
+                        <li onClick={() => this.props.navigate("/home")}>Customise</li>
                         <li onClick={() => logout() && this.props.navigate("/login") }>Logout</li>
                         
                     </ul>

@@ -14,7 +14,8 @@ class JWT_Token_Provider {
     generateAccessToken(user){
         const payload = {
             sub: user.id || user.sub,
-            firstName: user.firstName
+            firstName: user.firstName,
+            isAdmin: user.isAdmin,
         }
 
         return jwt.sign(
@@ -27,7 +28,8 @@ class JWT_Token_Provider {
     generateRefreshToken(user){
         const payload = {
             sub: user.id || user.sub,
-            firstName: user.firstName
+            firstName: user.firstName,
+            isAdmin: user.isAdmin,
         }
         return jwt.sign(
             payload, this.REFRESH_Token,
@@ -69,6 +71,8 @@ class JWT_Token_Provider {
             next();
         });
     }
+
+
 }
 
 module.exports = new JWT_Token_Provider();

@@ -124,7 +124,22 @@ class SingleBooking extends Component {
                 <div className="detWrapperBlock">
                     <div className="detailsBlock">
                         <div className="informationBlock">
-                            <UpdateBooking isOpen={this.state.open} onClose={this.handleClose}/>
+                            <UpdateBooking 
+                            isOpen={this.state.open}
+                            onClose={this.handleClose}
+                            initialData={{
+                                _id: _id,
+                                serviceTitle:serviceTitle,
+                                firstName: firstName,
+                                secondName: secondName,
+                                address: address,
+                                postCode: postCode,
+                                date: date,
+                                time: time,
+                                phoneNumber: phoneNumber,
+                                bookingNote: bookingNote
+                            }}
+                            />
                             <div className="fieldsBlock">
                                 <dl class="bookingInfo">
                                     <dt>{`Service Type: ${serviceTitle}`} </dt>

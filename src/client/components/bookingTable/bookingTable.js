@@ -27,7 +27,7 @@ class BookingTable extends Component {
     // load on then start of the page 
     componentDidMount(){
 
-      this.page = 1;     // store on the component
+      this.page = 1;    
       this.limit = 5;
 
       this.getBookingDetails();

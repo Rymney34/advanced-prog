@@ -89,6 +89,7 @@ const loginUser = async (req, res) => {
         name: user.name,
         surname: user.surname,
         email: user.email,
+        isAdmin: user.isAdmin
         
       }
     
@@ -98,4 +99,16 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = {loginUser, createUser}
+const isAdminUser = async (req, res) => {
+
+  try{
+      const admin = req.user.isAdmin
+    // console.log("Perdoz Admin "+admin)
+     res.json({ isAdmin: admin });
+
+  }catch{
+     res.status(500).json({ error: err.message });
+  }
+}
+
+module.exports = {loginUser, createUser,isAdminUser}
