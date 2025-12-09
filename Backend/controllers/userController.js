@@ -1,24 +1,23 @@
 const User = require("../schemas/user");
 const JWT_Token_Provider = require('../security/auth/jwtTokenProvider');
-
+const bcrypt = require("bcryptjs");
 
 //creating user registrating user cheking model 
 const createUser = async(req, res) => {
   try{
-    const { firstName, secondName, address, phoneNumber, email, password  } = req.body;
+    const { firstName, email, password, isAdmin = false  } = req.body;
 
-    if (!firstName || !secondName || !address || !phoneNumber || !email || !password) {
+    if (!firstName  || !email || !password) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
+     const hashPass = await bcrypt.hash(password, 10);
+
     const newUser = new User({
       firstName,
-      secondName,
-      address,
-      phoneNumber,
       email,
-      password,
-
+      password: hashPass,
+      isAdmin,
     });
   
     await newUser.save();
@@ -27,13 +26,10 @@ const createUser = async(req, res) => {
 
     res.status(201).json({
       
-      _id: newUser._id,
+      // _id: newUser._id,
       firstName: newUser.firstName,
-      secondName: newUser.secondName,
-      address: newUser.address,
-      phoneNumber: newUser.phoneNumber,
       email: newUser.email,
-      password: newUser.password,
+      isAdmin: newUser.isAdmin
     })
 
    
@@ -73,7 +69,8 @@ const loginUser = async (req, res) => {
     }
 
     // Compare the entered password with the hashed password stored in the database
-   const isMatch = password === user.password;
+  //  const isMatch = password === user.password;
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       console.log('Wrong')
@@ -86,8 +83,7 @@ const loginUser = async (req, res) => {
       accessToken,
       user: {
         _id: user._id,                  
-        name: user.name,
-        surname: user.surname,
+        firstName: user.firstName,
         email: user.email,
         isAdmin: user.isAdmin
         

@@ -13,6 +13,7 @@ import { AuthProvider } from './client/components/Tools/authFront/authContext';
 
 import BusinessInterface from "./client/components/businessInterface/businessInterface";
 import ProtectedRoute from "./client/components/Tools/protectedRoute/protected.route";
+import ServiceTable from "./client/components/serviceTable/serviceTable";
 
 function App() {
 
@@ -64,7 +65,10 @@ function App() {
                     <BookingForm/>
                   </LocalizationProvider>}
                 /> */}
-              
+                <Route
+                  path="/serviceTable"
+                  element={<ServiceTable/>}
+                />
                 <Route
                   path="/singleBooking/:bookingDetails"
                   element={<SingleBooking/>}

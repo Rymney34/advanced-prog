@@ -6,6 +6,7 @@ import Header from "../header/header";
 import SearchBar from "../search/searchBar";
 import { SearchContext } from "../context/context";
 import withRouter from '../navigate/navigate';
+import Table from '../table/table.js';
 
 class BookingTable extends Component {
     
@@ -105,6 +106,19 @@ class BookingTable extends Component {
     
     const { search } = this.context;
 
+    const headings = [
+      { key: "id", label: "ID", sortable: true },
+      { key: "serviceTitle", label: "Service Title", sortable: true },
+      { key: "firstName", label: "First Name" },
+      { key: "secondName", label: "Second Name" },
+      { key: "address", label: "Address" },
+      { key: "postcode", label: "Postcode" },
+      { key: "date", label: "Date", style: { padding: "25px" } },
+      { key: "time", label: "Time" },
+      { key: "phoneNumber", label: "Phone Number" },
+      { key: "actions", label: "", sortable: false },
+    ];
+
    
     const searchBooking = async () => {
         try{
@@ -161,61 +175,13 @@ class BookingTable extends Component {
                   Reset
                 </button>
             </div>
-            <div className="bookingTableWrapperBlock">
-                <div className="tableWrapper">
-                    <table border="1" style={{borderRadius:"5px"}} className="tableBlock">
-                        <thead   className="tableHeading">
-                            <tr className="tableHeadingWrapper">
-                                <th className="tHeading">ID</th>
-                                <th className="tHeading">Service Title</th>
-                                <th className="tHeading">First Name</th>
-                                <th className="tHeading">Second Name</th>
-                                <th className="tHeading">Address</th>
-                                <th className="tHeading">Postcode</th>
-                                <th className="tHeading" style={{padding:"25px"}}>Date </th>
-                                <th className="tHeading">Time</th>
-                                <th className="tHeading">Phone Number</th>
-                                <th className="tHeading" > </th>
-                            </tr>
-                        </thead>
-                        <tbody >
-                        {/* {currentItems.map((person) => (
-                            <tr key={person.id} className="border-b hover:bg-gray-50">
-                                <td className="px-6 py-3">{person.id}</td>
-                                <td className="px-6 py-3">{person.name}</td>
-                                <td className="px-6 py-3">{person.age}</td>
-                                <td className="px-6 py-3">{person.job}</td>
-                            </tr>
-                        ))} */}
-                        {this.state.bookingDetails.map((details,index) => (
-                           <tr key={index} className="tableDescriptionWrapper" >
-                                <td className="tableDescription">{index+1}</td>
-                                <td className="tableDescription">{details.serviceTitle}</td>
-                                <td className="tableDescription">{details.firstName}</td>
-                                <td className="tableDescription">{details.secondName}</td>
-                                <td className="tableDescription">{details.address}</td>
-                                <td className="tableDescription">{details.postCode}</td>
-                                <td className="tableDescription"  >{details.date}</td>
-                                <td className="tableDescription">{details.time}</td>
-                                <td className="tableDescription">{`+44 ${details.phoneNumber}`}</td>
-                                <td className="tableDescription" >
-                                  <Button style={{margin: 10, width: 115}} onClick={() => this.Page(details)} text="View Details" />
-                                </td>
-                            </tr>
-                        ))}
-
-                        </tbody>
-                    </table>
-                    <div style={{ display: 'flex', justifyContent: 'center',  margin: '20px 0 0 0'}}>
-                      {this.state.hasMore == true ?  <Button onClick={loadMore} style={{width: 300}} text="Load More"/> : <></>}
-                       
-                    </div>
-                    
-                </div>
-            </div>
-            
-           
-            
+            <Table
+              headings = {headings}
+              bookingDetails={this.state.bookingDetails}
+              hasMore={this.state.hasMore}
+              loadMore={loadMore}
+              Page={this.Page.bind(this)}
+            />
         </div>
     )
   }

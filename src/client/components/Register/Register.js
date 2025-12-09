@@ -8,6 +8,7 @@ import togglePasswordVisibility from '../Tools/toggleButton/tooglePassword';
 import axios from 'axios'
 import * as Yup from 'yup';
 
+
 const API_ENDPOINT = "/api/register"; 
 
 class Register extends Component {
@@ -21,12 +22,6 @@ class Register extends Component {
         
     }
 
-    // togglePasswordVisibility = () => {
-    //     this.setState((prevState) => ({
-    //     showPassword: !prevState.showPassword,
-    //     }));
-    // };
-
     
 
     render (){
@@ -35,21 +30,17 @@ class Register extends Component {
         
         try {
             const res = await axios.post(`${API_ENDPOINT}`, values);
-            console.log("Registration successful:", res.data);
+            // console.log("Registration successful:", res.data);
             // navigate("/");
             this.props.navigate("/login");
 
         } catch (error) {
-            // console.error(error);
+            console.error(error);
             
             } finally {
             
         }
-  };
-    //  const handleSubmit = async (values, { setSubmitting, setStatus }) => { 
-        
-    // };
-
+    };
 
         return(
             <div className="regWarpper">
@@ -57,10 +48,6 @@ class Register extends Component {
                     <Formik
                         initialValues={{ 
                             firstName: '',
-                            secondName: '',
-                            address: '',
-                            // zipCode: '',
-                            phoneNumber:'',
                             email: '',
                             password: '',
 
@@ -68,17 +55,6 @@ class Register extends Component {
                         
                             validationSchema = {Yup.object({
                                 firstName: Yup.string()
-                                            .required('Required Field'),
-                                secondName: Yup.string()
-                                            .required('Required Field'),
-                                address: Yup.string()
-                                            .min(2, "Min 2 characters")
-                                            .required('Required Field'),
-                                // zipCode: Yup.string()
-                                //             .min(2, "Min 2 characters")
-                                //             .required('Required Field'),
-                                phoneNumber: Yup.string()
-                                            .min(2, "Min 2 characters")
                                             .required('Required Field'),
                                 email: Yup.string()
                                             .email('Wrong Email address')
@@ -105,14 +81,6 @@ class Register extends Component {
                                 <h3>Account SignUp</h3>
                             <Field type="text" name="firstName" id="firstName" placeHolder="First Name" />
                                 <ErrorMessage name="firstName" component="div" />
-                            <Field type="text" name="secondName" id="secondName" placeHolder="Second Name" />
-                                <ErrorMessage name="secondName" component="div" />
-                            <Field type="text" name="address" id="address" placeHolder="address" />
-                                <ErrorMessage name="address" component="div" />
-                            {/* <Field type="text" name="zipCode" id="zipCode" placeHolder="zip Code" />
-                                <ErrorMessage name="zipCode" component="div" /> */}
-                            <Field type="text" name="phoneNumber" id="phoneNumber" placeHolder="phone Number" />
-                                <ErrorMessage name="phoneNumber" component="div" />
                             <Field type="email" name="email" id="email" placeHolder="Email" />
                                 <ErrorMessage name="email" component="div" />
                                 
@@ -129,7 +97,6 @@ class Register extends Component {
                             </div>
                                 <ErrorMessage name="password" component="div" />
                             
-                            {/* {console.log("Gazoz")} */}
                             <button type="submit" disabled={isSubmitting}>
                                 Register
                             </button>

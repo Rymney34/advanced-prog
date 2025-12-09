@@ -18,8 +18,8 @@ export default class Main extends Component {
         this.fetchCards()
     }
 
-    
-     fetchCards = async () => {
+    //getting cards details(services)
+    fetchCards = async () => {
             try {
                 const res = await axios.post("/api/findDoc");
 
@@ -33,7 +33,7 @@ export default class Main extends Component {
             console.error(error);
             
             } 
-        }
+    }
 
 
     render (){

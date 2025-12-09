@@ -88,7 +88,7 @@ render (){
                         </li>
                         <li onClick={() => this.props.navigate("/home")}>Home</li>
                         <li onClick={() => this.props.navigate("/bookingTable")}>Your Bookings</li>
-                        {this.state.adminView === true ? <li onClick={() => this.props.navigate("/businessInteface")}>Your Services</li> : <></>}
+                        {this.state.adminView === true ? <li onClick={() => this.props.navigate("/serviceTable")}>Your Services</li> : <></>}
                         
                         <li onClick={() => this.props.navigate("/home")}>Customise</li>
                         <li onClick={() => logout() && this.props.navigate("/login") }>Logout</li>

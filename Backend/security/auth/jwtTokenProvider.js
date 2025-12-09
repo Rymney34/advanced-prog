@@ -15,7 +15,7 @@ class JWT_Token_Provider {
         const payload = {
             sub: user.id || user.sub,
             firstName: user.firstName,
-            isAdmin: user.isAdmin,
+            isAdmin: user.isAdmin ,
         }
 
         return jwt.sign(
