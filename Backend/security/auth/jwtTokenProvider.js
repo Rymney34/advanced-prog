@@ -5,7 +5,7 @@ const express = require('express');
 class JWT_Token_Provider {
     constructor(){
     this.JWT_Token = process.env.ACCESS_TOKEN_SECRET
-    this.ACCESS_Token_Expires = '20s'
+    this.ACCESS_Token_Expires = '3m'
     this.REFRESH_Token = process.env.REFRESH_TOKEN
     this.REFRESH_Token_Expires = "1d"
     }

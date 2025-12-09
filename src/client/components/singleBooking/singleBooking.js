@@ -18,9 +18,16 @@ class SingleBooking extends Component {
       check: false,
       start: false,
       deleteId: '',
+      details: [],
       
+    };
+    
     }
+
+    componentDidMount() {
+        const {location} = this.props;
         
+        let {_id,user, serviceTitle, firstName, secondName, address, postCode, date, time, phoneNumber,bookingNote} = location.state || {};
     }
     handleMouseEnter = (btn) => {
         this.setState({ hovered: btn });
@@ -73,11 +80,21 @@ class SingleBooking extends Component {
 
     render (){
         
-        const gazoz = 'Alexdsfgsaadfgbfdsafgbfdsfgdfgdfgdfgdgfdfggfddgfdfglfjksbjhfbshjdbfhjsdbfhsbdfbhjsdbjhbjfhsbjhdbfjksdkbjfkbjsbjkdbjkbjkdbjkbjkbjkbjkbjkbjkbfjkbjksdbjkfbjkbjkbjkjbkbjkbjkbjkbjkbjkbjkbjkbjkbjkfbdjksbjksdfbjkdbjskfbjkdsfbjkdbjkdfsbjkfdsbjksdfbkjbjkfdsbjkfdsbjkfdsbjkfdsjbkdfsbjkfsbdjkbfjksdfjdksbjkfdsbjkfdsbjkfds'
 
-         const {location} = this.props;
+        const {location} = this.props;
           
-         const {_id,user, serviceTitle, firstName, secondName, address, postCode, date, time, phoneNumber,bookingNote} = location.state || {};
+        const {
+            _id,
+            user, 
+            serviceTitle, 
+            firstName, 
+            secondName,
+            address,
+            postCode,
+            date, 
+            time, 
+            phoneNumber,
+            bookingNote} = location.state || {};
         
         return (
 

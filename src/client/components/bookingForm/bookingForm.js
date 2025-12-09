@@ -23,12 +23,13 @@ class BookingForm extends Component {
             desc: "",
             buttonTitle:"",
             availableTimes:[],
-            success: false,
+            success: null,
             date: "",
             content: "",
             selectedTime:' ',
             update: false,
             dateSelectedByUser: false,
+            errorMessage: '',
         }
     }
 
@@ -94,7 +95,7 @@ class BookingForm extends Component {
             
             this.setState({ 
                 date: formattedDate,
-                dateSelectedByUser: true // Помечаем, что дата выбрана
+                dateSelectedByUser: true 
             });
             setFieldValue("date", formattedDate)
             
@@ -128,28 +129,35 @@ class BookingForm extends Component {
                 }
             );
             console.log("Booking Submited:", res.data);
-           
-            // navigate("/");
-            this.setState({
-                    success: true,
-                    date:"",
-                    selectedTime: ""
-                })
-           resetForm({values: {
-                serviceTitle: this.props.serviceTitle, 
-                firstName: "",
-                secondName: "",
-                address: "",
-                postCode: "",
-                date: null,
-                time: null,
-                phoneNumber: "",
-                bookingNote: ""
-            }
-        });
+            console.log(res.data.message)
+               this.setState({
+                            success: true,
+                            date:"",
+                            selectedTime: ""
+                            
+                        })
+                resetForm({values: {
+                        serviceTitle: this.props.serviceTitle, 
+                        firstName: "",
+                        secondName: "",
+                        address: "",
+                        postCode: "",
+                        date: null,
+                        time: null,
+                        phoneNumber: "",
+                        bookingNote: ""
+                    }
+                });
 
 
         } catch (error) {
+            if(error.response && error.response.status === 409){
+                this.setState({
+                    success: false,
+                    errorMessage: error.message, 
+                });
+            }
+             
             console.error(error);
             
             } finally {
@@ -168,18 +176,30 @@ class BookingForm extends Component {
 
         return(
             <div className="bookingFormWrapper" style={this.props.style}>
-                
-                {this.state.success && (
-                        <div className="modal-overlay">
+                {this.state.success === true && (
+                    <div className="modal-overlay">
                         <div className="modal">
                             <h3>Success!</h3>
-                            <p>Your Booking Submited</p>
-                            <button onClick={() => this.setState({ success: false })}>
-                            Close
+                            <p>Your Booking Submitted</p>
+                            <button onClick={() => this.setState({ success: null, errorMessage: null })}>
+                                Close
                             </button>
                         </div>
+                    </div>
+                )}
+
+                {/* If unseccess it will throw 409 error and set state to false and print this */}
+                {this.state.success === false && this.state.errorMessage && (
+                    <div className="modal-overlay">
+                        <div className="modal">
+                            <h4> Unfortunately time is alredy booked for this date</h4>
+                            <p>{this.state.errorMessage}</p>
+                            <button onClick={() => this.setState({ success: null, errorMessage: null })}>
+                                Try again
+                            </button>
                         </div>
-                    )}
+                    </div>
+                )}
                 <div className='bookingFormInner'>
                     <Formik
                     

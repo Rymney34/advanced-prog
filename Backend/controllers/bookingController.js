@@ -1,6 +1,7 @@
 import jwtTokenProvider from "../security/auth/jwtTokenProvider.js";
 import Booking from "../schemas/booking.js";
 import DeletedBooking from "../schemas/deletedBookings.js";
+import{SearchBookingFacade } from "../facades/searchBookingFacade.js";
 import mongoose from"mongoose";
 
 
@@ -24,7 +25,6 @@ export const createBooking = async(req, res) => {
       if (! serviceTitle || !firstName || !secondName || !address ||!postCode || !date ||!time ||  !phoneNumber ) {
         return res.status(400).json({ error: "Missing required fields" });
       }
-   
 
     const newBooking = new Booking({
       user: req.user.sub,  
@@ -38,13 +38,23 @@ export const createBooking = async(req, res) => {
       time,
       phoneNumber,
     });
+    
+    await newBooking.save(); //throws an error if document was update by another process
 
-    await newBooking.save();
+    res.status(201).json({
+      success:true,
+      data: newBooking, 
+      message: "Good job, Booking sumbitted"
+    });
 
-    res.status(201).json(newBooking);
-
-  }catch (err) {
-     console.error("Error :", err); 
+  }catch (error) {
+    if(error.code === 11000){
+      return res.status(409).json({
+        success: false,
+        message: "Unfortunately time is alredy booked for this date"
+      })
+    }
+     console.error("Error :", error); 
     res.status(400).json({ error: err.message });
   }
 }
@@ -149,37 +159,14 @@ export async function getAvailableTime(req, res) {
 export const searchBooking = async(req, res) => {
 
   const userId = new mongoose.Types.ObjectId(req.user.sub);
-  const s = req.query.search
+  const search = req.query.search
 
   try {
-    const searchDetails = [
-      {
-    $match: {
-      user: userId,
-      $or: [
-        { serviceTitle: { $regex: s, $options: "i" } },
-        { secondName:   { $regex: s, $options: "i" } },
-        { address:      { $regex: s, $options: "i" } },
-        { postCode:     { $regex: s, $options: "i" } },
-      ]
-    }
+    const data = await SearchBookingFacade.search(userId, search);
+    res.json({data});
+  } catch (err) {
+    res.status(500).json({ error: "Search failed" });
   }
-      
-     
-    ];
-
-    const data = await Booking.aggregate(searchDetails)
-    // console.log(await Booking.listIndexes());
-    // console.log(data)
-    
-    res.json({
-      data
-    }); // send data back to frontend
-  } catch (error) {
-    console.error("Error in searchBookings", error.message);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-
 
 }
 
@@ -268,6 +255,9 @@ export const updateBooking = async (req, res) => {
       date:date,
       time:time,
       phoneNumber:phoneNumber,
+    },
+    {
+      $inc: { balance: 1 }
     });
 
     if (!updatingBooking) {

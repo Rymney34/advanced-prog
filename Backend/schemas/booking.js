@@ -19,17 +19,22 @@ const bookingSchema = new mongoose.Schema({
     date: {type: String,required: true},
     time:  {type: String, required: true},
     phoneNumber:{type:String, required: true},
-}, { 
+  },
+  {
   versionKey: false,
   collection: 'bookings' 
-  
-});
-bookingSchema.index({ 
-  serviceTitle: "text",
-  secondName: "text",
-  postCode: "text",
-  address: "text", 
-});
+  });
+
+  bookingSchema.index(
+    {date:1, time:1},
+    { unique: true }
+  )
+  // bookingSchema.index({ 
+  //   serviceTitle: "text",
+  //   secondName: "text",
+  //   postCode: "text",
+  //   address: "text", 
+  // });
 
 const Booking = mongoose.model("bookings", bookingSchema); 
 

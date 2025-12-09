@@ -141,20 +141,6 @@ class BookingTable extends Component {
         }
       }
 
-      // function Page (props){
-      //   console.log("PAGE")
-      //   let nav = () => withRouter.navigate
-      //   nav(`/singleBooking/${props.id}`,
-      //             {
-      //             state:{
-      //               servicetitle:props.servicetitle,
-                  
-      //              }});  
-            
-      //   }
-
-
-
     return (
         
         <div className='bookingTablePageWrapper'>
