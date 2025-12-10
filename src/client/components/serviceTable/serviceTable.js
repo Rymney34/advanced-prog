@@ -114,8 +114,12 @@ class ServiceTable extends Component {
         <div className='bookingTablePageWrapper'>
             <Header/>
               <div className='pagetitle'>
+                <div className="titleButton">
                   <h2>YOUR Services</h2>
+                  <Button text='Create Service/Service Card' onClick={()=> this.props.navigate("/businessInteface")}/>
+                  </div>
               </div>
+              
             <div className="serachBookingsWrapper">
 
             </div>

@@ -85,9 +85,7 @@ class BusinessInterface extends Component {
             
             <div className="interfaceWrapper">
                 <Header/>
-                 <div className='pagetitle' id='pagetitle' >
-                    <h2 style={{margin: "0"}}>Service Form</h2>
-                    {this.state.success && (
+                {this.state.success && (
                         <div className="modal-overlay">
                         <div className="modal">
                             <h3>Success!</h3>
@@ -98,6 +96,10 @@ class BusinessInterface extends Component {
                         </div>
                         </div>
                     )}
+                 <div className='pagetitle' id='pagetitle' >
+                    <span className="material-symbols--keyboard-return-rounded" onClick={()=>{this.props.navigate(-1)}}></span>
+                    <h2 style={{margin: "0"}}>Service Form</h2>
+                    
                 </div>
                 <div className='interfaceBlock'>
                     
@@ -218,4 +220,4 @@ class BusinessInterface extends Component {
         )
     }
 }
-export default BusinessInterface;
+export default withRouter(BusinessInterface);

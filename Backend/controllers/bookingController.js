@@ -2,12 +2,17 @@ import jwtTokenProvider from "../security/auth/jwtTokenProvider.js";
 import Booking from "../schemas/booking.js";
 import DeletedBooking from "../schemas/deletedBookings.js";
 import{SearchBookingFacade } from "../facades/searchBookingFacade.js";
+
+import AsyncLock from 'async-lock';
+const lock = new AsyncLock();
+
 import mongoose from"mongoose";
 
 
 
 export const createBooking = async(req, res) => {
 
+  const lockKey = 'allBookingCreation';//unique for reference 
   try{
       const {
         
@@ -23,29 +28,34 @@ export const createBooking = async(req, res) => {
       } = req.body;
 
       if (! serviceTitle || !firstName || !secondName || !address ||!postCode || !date ||!time ||  !phoneNumber ) {
-        return res.status(400).json({ error: "Missing required fields" });
-      }
+          return res.status(400).json({ error: "Missing required fields" });
+        }
+      //lock booking or allows to have queue of bookiong craeting on the user side 
+    const newBooking = await lock.acquire(lockKey, async () => {
+        
 
-    const newBooking = new Booking({
-      user: req.user.sub,  
-      serviceTitle,
-      firstName,
-      secondName,
-      address,
-      postCode,
-      bookingNote,
-      date,
-      time,
-      phoneNumber,
-    });
-    
-    await newBooking.save(); //throws an error if document was update by another process
-
+      const booking = new Booking({
+        user: req.user.sub,  
+        serviceTitle,
+        firstName,
+        secondName,
+        address,
+        postCode,
+        bookingNote,
+        date,
+        time,
+        phoneNumber,
+      });
+      
+      await booking.save(); //throws an error if document was update by another process
+      return booking
+      
+    })
     res.status(201).json({
-      success:true,
-      data: newBooking, 
-      message: "Good job, Booking sumbitted"
-    });
+        success:true,
+        data: newBooking, 
+        message: "Good job, Booking sumbitted"
+      });
 
   }catch (error) {
     if(error.code === 11000){
@@ -55,7 +65,7 @@ export const createBooking = async(req, res) => {
       })
     }
      console.error("Error :", error); 
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ error: error.message });
   }
 }
 

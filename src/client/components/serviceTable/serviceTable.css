@@ -52,3 +52,9 @@
     color: white;
     justify-content: center;
 }
+
+.titleButton{
+    display: flex;
+    flex-direction: column;
+    
+}

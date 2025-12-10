@@ -1,5 +1,6 @@
 const User = require("../schemas/user");
 const JWT_Token_Provider = require('../security/auth/jwtTokenProvider');
+
 const bcrypt = require("bcryptjs");
 
 //creating user registrating user cheking model 
@@ -43,7 +44,7 @@ const createUser = async(req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log("Incoming login request:", req.body); 
+    // console.log("Incoming login request:", req.body); 
     // Find user by email
     const user = await User.findOne({ email });
 
