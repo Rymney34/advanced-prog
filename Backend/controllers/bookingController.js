@@ -3,12 +3,11 @@ import Booking from "../schemas/booking.js";
 import DeletedBooking from "../schemas/deletedBookings.js";
 import{SearchBookingFacade } from "../facades/searchBookingFacade.js";
 
-import AsyncLock from 'async-lock';
-const lock = new AsyncLock();
+
 
 import mongoose from"mongoose";
 
-
+import lock from "../config/lock.js"
 
 export const createBooking = async(req, res) => {
 
@@ -54,7 +53,7 @@ export const createBooking = async(req, res) => {
     res.status(201).json({
         success:true,
         data: newBooking, 
-        message: "Good job, Booking sumbitted"
+        message: "Good job, Booking submitted"
       });
 
   }catch (error) {
@@ -85,7 +84,7 @@ export async function getBooking(req, res) {
       .limit(limit)
 
     const total = await Booking.countDocuments(bookingDetails);
-    // console.log("Backend console - data:", data); 
+    console.log("Backend console - data:", data); 
     // console.log(await Booking.listIndexes());
     
     res.json({
@@ -196,6 +195,7 @@ export const deleteBooking = async(req, res) => {
     
 
     if (!toDeleteBooking) {
+      console.log("Alredy Deleted or notc Found")
       return res.status(404).json({ error: "Booking not found" });
     }
 
