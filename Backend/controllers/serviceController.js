@@ -61,7 +61,7 @@ const storage = multer.memoryStorage();
 export const uploadMiddleware = multer({ storage }).single("serviceImage");
 
 
-export const creatService = async(req, res) => {
+export const createService = async(req, res) => {
 
   try{
       const { serviceTitle, price,
@@ -89,13 +89,13 @@ export const creatService = async(req, res) => {
         urlImage: newService.urlImage,
         serviceDescription: newService.serviceDescription,
       })
-  }catch (err) {
-     console.error("Error :", err); 
-    res.status(400).json({ error: err.message });
+  }catch (error) {
+     console.error("Error :", error); 
+    res.status(500).json({ error: "Service is not created successfully" });
   }
 }
 
-
+//getting all services from db
 export async function getServiceCard(req, res) {
   try {
     const serviceDetails = [
@@ -104,7 +104,7 @@ export async function getServiceCard(req, res) {
 
     const data = await Services.aggregate(serviceDetails);
 
-    // console.log("Backend console - data:", data);
+    console.log("Backend console - data:", data);
 
     res.json(data); // send data back to frontend
   } catch (error) {

@@ -3,9 +3,9 @@ import {getAvailableTime, searchBooking, createBooking, getBooking, deleteBookin
 import {describe, test, vi, it, expect, beforeEach} from "vitest"
 import Booking from "../../schemas/booking.js";
 import DeletedBooking from "../../schemas/deletedBookings.js"
-
+//mock model initialisation
 vi.mock("../../schemas/booking.js");
-
+//mock model initialisation
 vi.mock("../../schemas/deletedBookings.js");
 
 //For res imitation what Express returns (method chining) - template in simple words
@@ -65,7 +65,7 @@ describe("CRUD Bookings - Unit Test", () => {
     });
 
     test("should delete booking successfuly", async () => {
-         //req tha should come from front just imitation
+         //req tha should come from front just immitation
 
         const req = {
             user: { sub: "6938b350de5d0c0e10c7d531" },
