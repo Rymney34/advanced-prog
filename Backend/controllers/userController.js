@@ -23,8 +23,6 @@ const createUser = async(req, res) => {
   
     await newUser.save();
         
-   
-
     res.status(201).json({
       
       // _id: newUser._id,
@@ -33,18 +31,16 @@ const createUser = async(req, res) => {
       isAdmin: newUser.isAdmin
     })
 
-   
   }catch (err) {
-     console.error("Error :", err); 
+    console.error("Error :", err); 
     res.status(400).json({ error: err.message });
   }
     
 }
-//login user by cheking user model 
+//login user by checking user model 
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // console.log("Incoming login request:", req.body); 
     // Find user by email
     const user = await User.findOne({ email });
 
@@ -100,11 +96,10 @@ const isAdminUser = async (req, res) => {
 
   try{
       const admin = req.user.isAdmin
-    // console.log("Perdoz Admin "+admin)
-     res.json({ isAdmin: admin });
+      res.json({ isAdmin: admin });
 
   }catch{
-     res.status(500).json({ error: err.message });
+      res.status(500).json({ error: err.message });
   }
 }
 

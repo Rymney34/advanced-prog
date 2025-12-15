@@ -201,6 +201,8 @@ export const deleteBooking = async(req, res) => {
 
     const booking = toDeleteBooking.toObject();
 
+    console.log(booking._id)
+
     await DeletedBooking.create({
       originalBookingId: booking._id,
       userId: booking.user,

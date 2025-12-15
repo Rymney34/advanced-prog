@@ -7,44 +7,20 @@ dotenv.config({ path: './config/config.env' });
 
 
 class ConnectDB {
-  constructor() {
-    if (ConnectDB.instance) {
-      return ConnectDB.instance; 
+  async connect(uri) {
+    if (mongoose.connection.readyState === 1) {
+      return;
     }
 
-    this._connect(); 
-    ConnectDB.instance = this; 
+    await mongoose.connect(uri);
+    console.log(" MongoDB connected");
   }
 
-  async _connect() {
-    try {
-      if (mongoose.connection.readyState === 0) {
-        await mongoose.connect(process.env.ATLAS_URI, {
-          // useNewUrlParser: true,
-          // useUnifiedTopology: true,
-        });
-         console.log(' MongoDB connected successfully ');
-      } else {
-        console.log('MongoDB connection already established');
-      }
-    } catch (err) {
-       console.error(' Connection error:', err.message);
-      process.exit(1);
+  async disconnect() {
+    if (mongoose.connection.readyState !== 0) {
+      await mongoose.disconnect();
     }
   }
-//   async _connect() {
-//   try {
-//     if()
-//     await mongoose.connect(process.env.ATLAS_URI);
-   
-//      console.log(' MongoDB connected successfully');
-//   } catch (err) {
-//     console.error(' Connection error:', err.message);
-//   }
-// }
 }
 
-
-
-const dbInstance = new ConnectDB();
-module.exports = dbInstance;
+module.exports = new ConnectDB();

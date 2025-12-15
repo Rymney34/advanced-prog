@@ -5,7 +5,7 @@ const express = require('express');
 class JWT_Token_Provider {
     constructor(){
     this.JWT_Token = process.env.ACCESS_TOKEN_SECRET
-    this.ACCESS_Token_Expires = '3m'
+    this.ACCESS_Token_Expires = '10d'
     this.REFRESH_Token = process.env.REFRESH_TOKEN
     this.REFRESH_Token_Expires = "1d"
     }
@@ -55,7 +55,7 @@ class JWT_Token_Provider {
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1]; 
 
-        console.log(token)
+        console.log("acutal "+token)
         if (!token ) {
             return res.status(401).json({data:[], message: 'Token missing' });
         }

@@ -22,4 +22,6 @@ const deletedBookingsSchema = new mongoose.Schema({
 
 );
 
-module.exports = mongoose.model('deletedBookings', deletedBookingsSchema);
+module.exports =
+  mongoose.models.deletedBookings ||
+  mongoose.model("deletedBookings", deletedBookingsSchema);

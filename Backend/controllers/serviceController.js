@@ -97,12 +97,13 @@ export const createService = async(req, res) => {
 
 //getting all services from db
 export async function getServiceCard(req, res) {
+  
   try {
     const serviceDetails = [
       { $match: {} }  // get all documents
     ];
 
-    const data = await Services.aggregate(serviceDetails);
+    const data = await Services.aggregate(serviceDetails); //aggregate services(find mathed and return(return all))
 
     console.log("Backend console - data:", data);
 

@@ -11,7 +11,9 @@ const cors = require("cors");
 const db = require('./config/dbConnect'); 
 const uploadImage = require("./imageUploader/imageUploader.js");
 
-
+(async () => {
+  await db.connect(process.env.ATLAS_URI);
+})();
 
 const PORT = process.env.PORT || 3001
 const app = express()
