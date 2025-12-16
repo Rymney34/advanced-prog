@@ -34,37 +34,6 @@ class ServiceTable extends Component {
       // this.getBookingDetails();
 
     }
-
-    //  getBookingDetails = async () => {
-    //     try{
-    //         const res = await fetch(`/api/getBookings?page=${this.page}&limit=${this.limit}`, {
-    //             method: "GET",
-    //             headers: {
-    //               'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    //               "Content-Type": "application/json"},
-                
-    //         })
-
-    //         const data = await res.json();
-
-
-    //         if (!res.ok || !Array.isArray(data.data)) {
-    //           window.location.reload(false);
-    //           this.setState({ bookingDetails: []}); 
-    //           return;
-    //         }
-    //         console.log("Bookind Details", data);
-    //         this.setState(prev => ({
-    //           bookingDetails: [...prev.bookingDetails, ...data.data],
-    //           hasMore: this.page < data.totalPages 
-    //         }));
-
-
-    //     }catch(error){
-    //         console.log(error)
-    //     }
-        
-    //   }
       
     Page(details) {
       this.props.navigate(`/singleBooking/${details._id}`, {

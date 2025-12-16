@@ -14,7 +14,11 @@ import { AuthProvider } from './client/components/Tools/authFront/authContext';
 import BusinessInterface from "./client/components/businessInterface/businessInterface";
 import ProtectedRoute from "./client/components/Tools/protectedRoute/protected.route";
 import ServiceTable from "./client/components/serviceTable/serviceTable";
+import ServiceBookings from "./client/components/serviceBookings/serviceBookings";
+import ErrorBoundary from './client/components/errorBoundary/ErrorBoundary.js';
+import Page404 from "./client/components/errorBoundary/Page404.js";
 
+// import Spinner from '../spinner/Spinner.js';
 function App() {
 
    const [data, setData] = useState()
@@ -26,6 +30,7 @@ function App() {
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
           <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"></link>
           <Routes>
+           
              <Route
               
                   path="/"
@@ -43,7 +48,7 @@ function App() {
              <Route element ={<ProtectedRoute/>}>
                 <Route
                   path="/home"
-                  element={<Main/>}
+                  element={ <Main/>  }
                 />
                  <Route
                   path="/serviceDetails/:singleService"
@@ -51,33 +56,35 @@ function App() {
                 />
                 <Route
                   path="/BookingTable"
-                  element={<SearchProvider> <BookingTable/></SearchProvider> }
+                  element={<ErrorBoundary><SearchProvider> <BookingTable/></SearchProvider></ErrorBoundary> }
                 />
                 
                 <Route
                   path="/bookingForm"
-                  element={<BookingForm/>}
+                  element={<ErrorBoundary><BookingForm/></ErrorBoundary>}
                 />
-                {/* <Route
-                  path="/bookingForm"
-                  element={
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <BookingForm/>
-                  </LocalizationProvider>}
-                /> */}
                 <Route
                   path="/serviceTable"
-                  element={<ServiceTable/>}
+                  element={<ErrorBoundary><ServiceTable/></ErrorBoundary>}
+                />
+                <Route
+                  path="/bookingsService"
+                  element={<ErrorBoundary><ServiceBookings/></ErrorBoundary>}
                 />
                 <Route
                   path="/singleBooking/:bookingDetails"
-                  element={<SingleBooking/>}
+                  element={<ErrorBoundary><SingleBooking/></ErrorBoundary>}
                 />
                 <Route
-                path="/businessInteface"
-                 element={<BusinessInterface/> }
+                  path="/businessInteface"
+                  element={<ErrorBoundary><BusinessInterface/></ErrorBoundary>}
+                />
+                <Route
+                path='*'
+                element={<Page404/>}
                 />
              </Route>
+              
           </Routes>
       </div>
     </Router>

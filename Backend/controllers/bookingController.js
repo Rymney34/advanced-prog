@@ -8,11 +8,14 @@ import{SearchBookingFacade } from "../facades/searchBookingFacade.js";
 import mongoose from"mongoose";
 
 import lock from "../config/lock.js"
-
+//creating booking method
 export const createBooking = async(req, res) => {
 
   const lockKey = 'allBookingCreation';//unique for reference 
+
+  
   try{
+    // getting user from frontend 
       const {
         
         serviceTitle,
@@ -25,14 +28,14 @@ export const createBooking = async(req, res) => {
         time,
         phoneNumber,
       } = req.body;
-
+      //check that all not null or undefind that there is value
       if (! serviceTitle || !firstName || !secondName || !address ||!postCode || !date ||!time ||  !phoneNumber ) {
           return res.status(400).json({ error: "Missing required fields" });
         }
       //lock booking or allows to have queue of bookiong craeting on the user side 
     const newBooking = await lock.acquire(lockKey, async () => {
         
-
+    //creating acctual booking
       const booking = new Booking({
         user: req.user.sub,  
         serviceTitle,
@@ -45,19 +48,22 @@ export const createBooking = async(req, res) => {
         time,
         phoneNumber,
       });
-      
+      //saving booking into db
       await booking.save(); //throws an error if document was update by another process
       return booking
       
     })
+    // returning success and 201
     res.status(201).json({
         success:true,
         data: newBooking, 
         message: "Good job, Booking submitted"
       });
 
+      //cathing error special and unique code to check if this bookign with this time already exists 
   }catch (error) {
     if(error.code === 11000){
+      //throws 409 to front with certain json data
       return res.status(409).json({
         success: false,
         message: "Unfortunately time is alredy booked for this date"
@@ -67,8 +73,9 @@ export const createBooking = async(req, res) => {
     res.status(400).json({ error: error.message });
   }
 }
-
+//geting booking
 export async function getBooking(req, res) {
+  // variables for rendering and reqestion right amount of data 
   const page = parseInt(req.query.page) || 1;
   const limit  = parseInt(req.query.limit) || 5;
   const skip = (page - 1) * limit;
@@ -286,5 +293,23 @@ export const updateBooking = async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 }
+//getting all bookings from db (ALL from all users)
+export async function getAllBookings(req, res) {
+  try {
+    //limits
+    const { page = 1, limit = 20 } = req.body;
+    const skip = (page - 1) * limit;
 
+    //actual reqest to db
+    const data = await Booking.find({})
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+    //returning to front
+    res.json({ data });
+  } catch (error) {
+    console.error("Error in getAllBookings", error.message);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+}
 

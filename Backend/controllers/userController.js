@@ -1,18 +1,33 @@
 const User = require("../schemas/user");
 const JWT_Token_Provider = require('../security/auth/jwtTokenProvider');
-
+const sanitize = require('mongo-sanitize');
 const bcrypt = require("bcryptjs");
 
 //creating user registrating user cheking model 
 const createUser = async(req, res) => {
   try{
-    const { firstName, email, password, isAdmin = false  } = req.body;
+   
+
+    const firstName = sanitize(req.body.firstName);
+    const email = sanitize(req.body.email);
+    const password = sanitize(req.body.password);
+    const isAdmin = false;
 
     if (!firstName  || !email || !password) {
       return res.status(400).json({ error: "Missing required fields" });
     }
+    if (
+      typeof firstName !== "string" ||
+      typeof email !== "string" ||
+      typeof password !== "string"
+    )
+    {
+    return res.status(400).json({ error: "Invalid input type" })
+    }
+    console.log(password)
 
-     const hashPass = await bcrypt.hash(password, 10);
+
+    const hashPass = await bcrypt.hash(password, 10);
 
     const newUser = new User({
       firstName,
@@ -20,6 +35,7 @@ const createUser = async(req, res) => {
       password: hashPass,
       isAdmin,
     });
+    console.log(newUser)
   
     await newUser.save();
         

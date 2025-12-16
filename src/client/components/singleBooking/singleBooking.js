@@ -84,6 +84,7 @@ class SingleBooking extends Component {
         const {location} = this.props;
           
         const {
+            isAdmin,
             _id,
             user, 
             serviceTitle, 
@@ -172,34 +173,35 @@ class SingleBooking extends Component {
                                 
                             </div>
                         </div>
-                    <div className="buttonsBlockWrapper">
-                        <div className="buttonsBlock" >
-                            <div onMouseEnter={()=>this.handleMouseEnter("btn1")}
-                                onMouseLeave={this.handleMouseLeave}
-                                style={{width: "100%"}}>
-                                <Button  text='Update' onClick={this.handleOpen}
-                            
-                                style={{
-                                    width: "100%",
-                                    backgroundColor: this.state.hovered === "btn1" ? "#b0ffb9ff" : "rgb(239, 239, 239)" ,
-                                }}
-                                />
-                            </div>
-                            
-                            <div onMouseEnter={()=>this.handleMouseEnter("btn2")}
-                                onMouseLeave={this.handleMouseLeave}
-                                style={{width: "100%"}}>
-                                <Button  text='Delete / Cancel'  
-                                onClick={() => this.cancelBooking(_id)}
-                                style={{
-                                    width: "100%",
-                                    backgroundColor: this.state.hovered === "btn2" ? "#ffb0c4" : "rgb(239, 239, 239)" ,
-                                }}/>
-                            </div>
+                        {isAdmin != true ?  <div className="buttonsBlockWrapper">
+                            <div className="buttonsBlock" >
+                                <div onMouseEnter={()=>this.handleMouseEnter("btn1")}
+                                    onMouseLeave={this.handleMouseLeave}
+                                    style={{width: "100%"}}>
+                                    <Button  text='Update' onClick={this.handleOpen}
                                 
-                                {/* <Button  text='Cancel'/> */}
-                        </div>
-                    </div>
+                                    style={{
+                                        width: "100%",
+                                        backgroundColor: this.state.hovered === "btn1" ? "#b0ffb9ff" : "rgb(239, 239, 239)" ,
+                                    }}
+                                    />
+                                </div>
+                                
+                                <div onMouseEnter={()=>this.handleMouseEnter("btn2")}
+                                    onMouseLeave={this.handleMouseLeave}
+                                    style={{width: "100%"}}>
+                                    <Button  text='Delete / Cancel'  
+                                    onClick={() => this.cancelBooking(_id)}
+                                    style={{
+                                        width: "100%",
+                                        backgroundColor: this.state.hovered === "btn2" ? "#ffb0c4" : "rgb(239, 239, 239)" ,
+                                    }}/>
+                                </div>
+                                    
+                                    {/* <Button  text='Cancel'/> */}
+                            </div>
+                        </div> : <></>}
+                       
                     </div>
                 </div>
                 
