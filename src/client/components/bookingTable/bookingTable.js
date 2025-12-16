@@ -7,6 +7,7 @@ import SearchBar from "../search/searchBar";
 import { SearchContext } from "../context/context";
 import withRouter from '../navigate/navigate';
 import Table from '../table/table.js';
+import Spinner from "../spinner/Spinner.js";
 
 class BookingTable extends Component {
     
@@ -20,7 +21,7 @@ class BookingTable extends Component {
       search: "",
       bookingDetails: [],
       hasMore: true,
-    
+      loading: false,
     }
         
     }
@@ -38,6 +39,7 @@ class BookingTable extends Component {
 
      getBookingDetails = async () => {
         try{
+            this.setState({ loading: true });
             const res = await fetch(`/api/getBookings?page=${this.page}&limit=${this.limit}`, {
                 method: "GET",
                 headers: {
@@ -51,18 +53,20 @@ class BookingTable extends Component {
 
             if (!res.ok || !Array.isArray(data.data)) {
               window.location.reload(false);
-              this.setState({ bookingDetails: []}); 
+              this.setState({ bookingDetails: [],loading: false}); 
               return;
             }
             console.log("Bookind Details", data);
             this.setState(prev => ({
               bookingDetails: [...prev.bookingDetails, ...data.data],
-              hasMore: this.page < data.totalPages 
+              hasMore: this.page < data.totalPages,
+              loading: false,
             }));
 
 
         }catch(error){
             console.log(error)
+            this.setState({ loading: false });
         }
         
       }
@@ -91,13 +95,13 @@ class BookingTable extends Component {
   render (){
 
     const reset = () => {
-      this.setState({bookingDetails:[]})
+      this.page = 1;
+      this.setState({bookingDetails:[],hasMore:true})
       this.getBookingDetails();
     }
   
 
     const loadMore = () => {
-        // getBookingDetails()
         this.page += 1;
         console.log("State "+this.state.bookingDetails)
         this.getBookingDetails();
@@ -154,20 +158,32 @@ class BookingTable extends Component {
             <div className="serachBookingsWrapper">
              
                 <SearchBar/>
-                <button style={{borderRadius: 15, width: 80, height: 40}} onClick={searchBooking}>
+                <button 
+                  style={{borderRadius: 15, width: 80, height: 40}}
+                  onClick={searchBooking}
+                  disabled={this.state.loading}
+                >
                   Search
                 </button>
-                <button style={{borderRadius: 15, width: 80, height: 40}} onClick={reset}>
+                <button 
+                  style={{borderRadius: 15, width: 80, height: 40}}
+                  onClick={reset} 
+                  // disabled={this.state.loading}
+                >
                   Reset
                 </button>
             </div>
-            <Table
-              headings = {headings}
-              bookingDetails={this.state.bookingDetails}
-              hasMore={this.state.hasMore}
-              loadMore={loadMore}
-              Page={this.Page.bind(this)}
-            />
+            {this.state.loading ? (
+              <Spinner />
+            ) : (
+              <Table
+                headings={headings}
+                bookingDetails={this.state.bookingDetails}
+                hasMore={this.state.hasMore}
+                loadMore={loadMore}
+                Page={this.Page.bind(this)}
+              />
+            )}
         </div>
     )
   }
