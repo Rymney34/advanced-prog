@@ -26,33 +26,30 @@ class BusinessInterface extends Component {
     }
     //logic realated to uploding image and sending it to backend 
     handleChange =async (file, setFieldValue) => {
-        // setFile(file);
-         if (this.state.file != null) {
-            alert("Please upload only one image");
-            return;
+            // setFile(file);
+            if (this.state.file != null) {
+                alert("Please upload only one image");
+                return;
+            }
+            this.setState({file});
+            
+        try {
+            const formdata = new FormData();
+            formdata.append("serviceImage", file);
+
+                const res = await fetch("/api/upload/img", {
+                    method: "POST",
+                    body: formdata
+                
+                });
+                const data = await res.json();
+                this.setState({ url: data.url }, () => {
+                    setFieldValue("urlImage", data.url); 
+            });
+        }catch (err) {
+        
+        console.warn(err);
         }
-        this.setState({file});
-        
-    try {
-      const formdata = new FormData();
-      formdata.append("serviceImage", file);
-
-        const res = await fetch("/api/upload/img", {
-            method: "POST",
-            body: formdata
-          
-        });
-        
-
-        const data = await res.json();
-        this.setState({ url: data.url }, () => {
-            setFieldValue("urlImage", data.url); 
-        console.log("Server response:", this.state.url);
-    });
-    }catch (err) {
-      
-      console.warn(err);
-    }
     }
 
     render (){
@@ -118,7 +115,7 @@ class BusinessInterface extends Component {
                                             .min(3, "Min 3 characters")
                                             .required('Required Field'),
                                 serviceDescription: Yup.string()
-                                            .min(10, "Min 3 characters")
+                                            .min(10, "Min 10 characters")
                                             .required('Service Description Field is required'),
                                 // availableDateTime: Yup.string()
                                 //             .min(2, "Min 2 characters")
@@ -163,7 +160,7 @@ class BusinessInterface extends Component {
                                     <Field type="text" name="serviceTitle" id="serviceTitle" placeHolder="Service Title" />
                                         <ErrorMessage className="error" name="serviceTitle" component="div" />
                                     
-                                    <Field type="text" name="price" id="price" placeHolder="£ Price"/>
+                                    <Field type="text" name="price" id="price" placeHolder="£ Price p/h"/>
                                         <ErrorMessage className="error" name="price" component="div"/>
                                   
                                          <FileUploader 
@@ -177,36 +174,11 @@ class BusinessInterface extends Component {
                                                 fileOrFiles={this.state.file}
                                         />
                                    <ErrorMessage className="error" name="urlImage" component="div"/>
-                                    {/* <Field
-                                        as="select"
-                                        id="dateTime" 
-                                        name="dateTime"
-                                        className="form-select"
-                                        placeholder="Sponsor"
-                                        
-
-                                        >
-                                        <option value="">
-                                            Please select the Date
-                                        </option>
-                                        <option value="">
-                                        12/12/25
-                                        </option>
-                                        {
-                                        
-                                        }
-                                    </Field>  */}
-                                        <ErrorMessage className="error" name="dateTime" component="div" />
-                                   
                                 </div>
 
                                 <div className='rightFormBlock'>
-                                   
                                   <Field style={{width:"90%", height: "40%", borderRadius: 15, padding: 10}} as="textarea" name="serviceDescription" id="serviceDescription" placeHolder="Service Description" />
                                         <ErrorMessage className="error" name="serviceDescription" component="div" />
-                                 
-                                    
-                            
                                     <Button type="submit" text="Submit" disabled={isSubmitting} style={{backgroundColor:"#56D55D", color: "white"}}/>
                                 </div>
                             </div>

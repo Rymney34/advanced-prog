@@ -1,21 +1,16 @@
 import "./updateBooking.css";
 
+import axios from 'axios';
 import { Component } from 'react';
-import withRouter from '../navigate/navigate';
-import Button from "../Tools/button/button";
-import Header from "../header/header";
+import close from '../../resources/images/close.png';
 import BookingForm from "../bookingForm/bookingForm";
-import close from '../../resources/images/close.png'
-import axios from 'axios'
+import withRouter from '../navigate/navigate';
 
 class UpdateBooking extends Component {
-
-   
 
   constructor(props) {
     super(props);
     this.state = {
-        search: "", 
         isOpen: "", 
         onClose: "", 
         children: "",
@@ -35,11 +30,10 @@ class UpdateBooking extends Component {
         document.body.style.overflow = 'unset';
     }
     updateBookingDetails = async(data) => {
-         const res = await axios.post(`/api/updateBooking`, data,
+          const res = await axios.post(`/api/updateBooking`, data,
                 {
                     headers: {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
-                       
                     },
                 }
             );
@@ -55,35 +49,15 @@ class UpdateBooking extends Component {
       this.updateBookingDetails(data)
     };
 
-    
 
-    
 
     render (){
 
     if (!this.props.isOpen) return null;
     
-    
-
-   
     return (
         
         <div className='updateBookingModal' 
-
-                // style={{
-                    
-                //     position: "fixed",
-                //     zIndex: 2,
-                //     width: "100vw",
-                //     height: "100vh",
-                //     background: "black",
-                //     // right: "110px",
-                //     // top: "140px",
-                //     display: "flex",
-                    
-                //     // width: "100vw",
-                   
-                // }}
                 >
                    {this.state.close && (
                         <div className="modal-overlay">
@@ -101,7 +75,6 @@ class UpdateBooking extends Component {
                         </div>
                         </div>
                     )}
-                     
             <BookingForm 
               onDataFromChild={this.handleChildData}
               content={<img onClick={this.props.onClose} src={close}
@@ -127,7 +100,6 @@ class UpdateBooking extends Component {
               }}
 
               />
-           
 
         </div>
     )

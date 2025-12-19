@@ -12,8 +12,6 @@ import togglePasswordVisibility from '../Tools/toggleButton/tooglePassword';
 import * as Yup from 'yup';
 const API_ENDPOINT = "/api/login"; 
 
-
-
 class Login extends Component {
 
   constructor(props) {

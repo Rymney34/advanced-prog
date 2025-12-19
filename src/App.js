@@ -1,22 +1,22 @@
 
-import React, { useState, useEffect, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Main from  "./client/components/main/main"
+import React, { Suspense, useState } from 'react';
+import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import './App.css';
-import BookingForm from "./client/components/bookingForm/bookingForm";
-import ServiceDetails from "./client/components/serviceDetails/serviceDetails";
-import SingleBooking from "./client/components/singleBooking/singleBooking";
-import BookingTable from "./client/components/bookingTable/bookingTable";
-import  {SearchProvider} from './client/components/context/context';
-import { AuthProvider } from './client/components/Tools/authFront/authContext';
+import BookingForm from "./client/components/bookingForm/bookingForm.js";
+import BookingTable from "./client/components/bookingTable/bookingTable.js";
+import { SearchProvider } from './client/components/context/context.js';
+import Main from "./client/components/main/main.js";
+import ServiceDetails from "./client/components/serviceDetails/serviceDetails.js";
+import SingleBooking from "./client/components/singleBooking/singleBooking.js";
+import { AuthProvider } from './client/components/Tools/authFront/authContext.js';
 
-import BusinessInterface from "./client/components/businessInterface/businessInterface";
-import ProtectedRoute from "./client/components/Tools/protectedRoute/protected.route";
-import ServiceTable from "./client/components/serviceTable/serviceTable";
-import ServiceBookings from "./client/components/serviceBookings/serviceBookings";
+import BusinessInterface from "./client/components/businessInterface/businessInterface.js";
 import ErrorBoundary from './client/components/errorBoundary/ErrorBoundary.js';
 import Page404 from "./client/components/errorBoundary/Page404.js";
+import ServiceBookings from "./client/components/serviceBookings/serviceBookings.js";
+import ServiceTable from "./client/components/serviceTable/serviceTable.js";
 import Spinner from "./client/components/spinner/Spinner.js";
+import ProtectedRoute from "./client/components/Tools/protectedRoute/protected.route.js";
 
 const Login = React.lazy(() =>
   import("./client/components/Login/Login.js")
@@ -31,6 +31,8 @@ function App() {
     <AuthProvider>
     <Router>
       <div className="App">
+          <title>BookFlow</title>
+          <link rel="icon" type="image/x-icon" href="/images/favicon.ico"></link>
           <link rel="preconnect" href="https://fonts.googleapis.com"></link>
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
           <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"></link>

@@ -4,25 +4,25 @@ import { Component } from 'react';
 import Button from "../Tools/button/button";
 import Header from "../header/header";
 
-import UpdateBooking from "../updateBooking/updateBooking";
 import withRouter from '../navigate/navigate';
+import UpdateBooking from "../updateBooking/updateBooking";
 
 class SingleBooking extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      open:"",
-      hovered: null,
-      success: false,
-      check: false,
-      start: false,
-      deleteId: '',
-      details: [],
-      
-    };
+        this.state = {
+            open:"",
+            hovered: null,
+            success: false,
+            check: false,
+            start: false,
+            deleteId: '',
+            details: [],
+        };
     
     }
+    
 
     componentDidMount() {
         const {location} = this.props;
@@ -50,18 +50,18 @@ class SingleBooking extends Component {
     cancelBooking = (id) => {
         this.setState({ check: true, deleteId: id });
     };
-
+    //delete on execution 
     confirmDelete = async () => {
         try {
+            //calling api to delete booking with this id
             const res = await fetch(`/api/deleteBooking/${this.state.deleteId}`, {
             method: "DELETE",
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
             },
             });
-
+            //get result
             const data = await res.json();
-
             if (!data.error) {
                 this.setState({ success: true });
             }
@@ -75,11 +75,7 @@ class SingleBooking extends Component {
         this.setState({ check: false });
     };
 
-
-
-
     render (){
-        
 
         const {location} = this.props;
           

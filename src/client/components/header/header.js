@@ -1,6 +1,6 @@
 import "./header.css"
 import logoImg from '../../resources/images/logo1.png'
-import profileImg from '../../resources/images/profile.png'
+import profileImg from '../../resources/images/profile1.png'
 import ProfileModal from "../profile/profileMenu"
 
 import { useState } from "react"
@@ -27,20 +27,14 @@ function Header(props) {
                         <img className="logoImg" src={logoImg}/>
                         <h1 className='title'>BookFlow</h1>
                     </div>
-                    
                     <div  className="profileImgBlock">
-                         <ProfileModal isOpen ={open} onClose={handleClose}/>
+                        <ProfileModal isOpen ={open} onClose={handleClose}/>
                         <img onClick={handleOpen} src={profileImg}/>
                         
                     </div>
-                   
-                    
                 </header>
-               
             </div>
-
         )
-    
 }
 export default withRouter(Header)
 

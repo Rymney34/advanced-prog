@@ -6,8 +6,10 @@ import cleningImg from '../../resources/images/cleaning.png'
 import {useNavigate} from 'react-router-dom';
 
 export default function ServiceCard(props) {
+    //react navigation hook
     const navigate = useNavigate();
 
+    //properties 
     const {
         id,
         urlImage,
@@ -16,7 +18,7 @@ export default function ServiceCard(props) {
         serviceDescription,
 
     } = props
-
+    //naviagte to service detials with passing this states
         function Page (){
               navigate(`/serviceDetails/${id}`, 
                   {
@@ -28,7 +30,7 @@ export default function ServiceCard(props) {
                    }});  
             
         }
-
+        //react 
         return (
             <div key={id} className="serviceCard">
                 <div className="imageBlock">
@@ -37,12 +39,11 @@ export default function ServiceCard(props) {
                 <div className="Ss">
                 <div className="serviceCardText">
                     <h2>{title}</h2>
+                    {/* button component */}
                     <Button onClick={Page} text='Book Now'/>
                 </div>
                 </div>
             </div>
-
         )
-    
 }
 

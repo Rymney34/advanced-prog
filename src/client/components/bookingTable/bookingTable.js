@@ -1,13 +1,12 @@
 import "./bookingTable.css";
 
 import { Component } from 'react';
-import Button from "../Tools/button/button";
-import Header from "../header/header";
-import SearchBar from "../search/searchBar";
-import { SearchContext } from "../context/context";
-import withRouter from '../navigate/navigate';
-import Table from '../table/table.js';
+import { SearchContext } from "../context/context.js";
+import Header from "../header/header.js";
+import withRouter from '../navigate/navigate.js';
+import SearchBar from "../search/searchBar.js";
 import Spinner from "../spinner/Spinner.js";
+import Table from '../table/table.js';
 
 class BookingTable extends Component {
     
@@ -36,10 +35,11 @@ class BookingTable extends Component {
      
       
     }
-
+//get bookign details 
      getBookingDetails = async () => {
         try{
             this.setState({ loading: true });
+            // fetch data from backend db
             const res = await fetch(`/api/getBookings?page=${this.page}&limit=${this.limit}`, {
                 method: "GET",
                 headers: {
@@ -47,22 +47,21 @@ class BookingTable extends Component {
                   "Content-Type": "application/json"},
                 
             })
-
+            // set to varibale 
             const data = await res.json();
-
-
+            //validation 
             if (!res.ok || !Array.isArray(data.data)) {
               window.location.reload(false);
               this.setState({ bookingDetails: [],loading: false}); 
               return;
             }
             console.log("Bookind Details", data);
+            //set states if all ok, it will add up new booking when called 
             this.setState(prev => ({
               bookingDetails: [...prev.bookingDetails, ...data.data],
               hasMore: this.page < data.totalPages,
               loading: false,
             }));
-
 
         }catch(error){
             console.log(error)
@@ -71,9 +70,6 @@ class BookingTable extends Component {
         
       }
 
-      // handleCallBack = (childData) ={
-      //   this.setState.
-      // }
 
       
     Page(details) {
@@ -122,8 +118,6 @@ class BookingTable extends Component {
       { key: "phoneNumber", label: "Phone Number" },
       { key: "actions", label: "", sortable: false },
     ];
-
-   
     const searchBooking = async () => {
         try{
             const res = await fetch(`/api/searchBooking?search=${search}`, {

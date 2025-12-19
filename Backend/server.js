@@ -12,10 +12,6 @@ const cors = require("cors");
 const db = require('./config/dbConnect'); 
 const uploadImage = require("./imageUploader/imageUploader.js");
 
-
-
-
-
 (async () => {
   await db.connect(process.env.ATLAS_URI);
 })();
@@ -40,18 +36,9 @@ app.use('/api', serviceRoutes)
 app.use('/api', bookingRoutes)
 
 
-
 app.listen (PORT, () => {
     console. log('Server starting on port')
 
 })
 
-
-app.get('/api', (req, res) => {
-    res.json(
-        {message: "Hello from backend"
-
-        }
-    )
-})
 

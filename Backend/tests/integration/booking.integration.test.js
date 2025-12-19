@@ -50,13 +50,11 @@ describe("Booking CRUD Integration - Real DB", () => {
             phoneNumber: "0777777777",
             bookingNote: "Test booking"
         };
-
         const res = await request(app)
             .post("/api/createBooking")
             .set("Authorization", `Bearer ${mockAuthToken}`)
             .send(bookingData)
             .expect(201);
-
         // Check API response
         expect(res.body).toMatchObject({
             success: true,

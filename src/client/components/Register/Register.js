@@ -15,15 +15,10 @@ class Register extends Component {
     
     constructor(props) {
     super(props);
-    this.state = {
-      showPassword: false
+        this.state = {
+        showPassword: false
+        } 
     }
-
-        
-    }
-
-    
-
     render (){
 
     const handleSubmit = async (values, { setSubmitting, setStatus }) => {

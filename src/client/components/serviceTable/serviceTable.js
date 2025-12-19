@@ -1,13 +1,12 @@
 import "./serviceTable.css";
 
-import { Component } from 'react';
-import Button from "../Tools/button/button";
-import Header from "../header/header";
-import SearchBar from "../search/searchBar";
-import { SearchContext } from "../context/context";
-import withRouter from '../navigate/navigate';
-import Table from '../table/table.js'
 import axios from 'axios';
+import { Component } from 'react';
+import Button from "../Tools/button/button.js";
+import { SearchContext } from "../context/context.js";
+import Header from "../header/header.js";
+import withRouter from '../navigate/navigate.js';
+import Table from '../table/table.js';
 
 class ServiceTable extends Component {
     

@@ -1,70 +1,113 @@
-# Getting Started with Create React App
+# Service Booking Management System (React)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+This project is a **Book Flow** built with **React** and bootstrapped using **Create React App**. The application provides a structured interface for managing services, bookings, and users, with clear separation of concerns between business logic, UI components, controllers, and data handling.
 
-In the project directory, you can run:
+The system is designed to support different roles (such as Business Admin and Developer), service tiers (e.g. Basic, VIP), and booking workflows, while maintaining scalability and clean architecture.
 
-### `npm start`
+## Key Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* Service listing with pricing and descriptions
+* Booking management with searchable and sortable tables
+* Role-based responsibilities (Business Admin & Developer)
+* Reusable UI components (tables, buttons, search bars, spinners)
+* Context API for shared state management
+* Routing and navigation support
+* Loading states handled with spinners and Suspense
+* Test-ready structure for unit and integration testing
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technology Stack
 
-### `npm test`
+* **React** (Create React App)
+* **JavaScript (ES6+)**
+* **Node.js**
+* **Express.js**
+* **MongoDB**
+* **Context API** for state management
+* **React Router** for navigation
+* **CSS** for styling
+* **Vitest & React Testing Library** for testing
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Application Flow
 
-### `npm run build`
+1. The user interacts with the UI (search, select service, manage bookings).
+2. Controllers and service layers handle business logic.
+3. Data is fetched, processed, and displayed in tables or forms.
+4. Loading states are managed using spinners and Suspense.
+5. Results are rendered dynamically based on user actions and role permissions.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Node.js (v16 or later recommended)
+* npm or yarn
 
-### `npm run eject`
+### Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Running the Application
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+cd to frontend directory
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+cd to Backend directory
+npm run dev
+```
+
+Runs the app in development mode.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload when changes are made, and lint errors will appear in the console if present.
+
+### Running Tests
+
+```bash
+npm test
+```
+
+Launches the test runner in interactive watch mode.
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+Builds the app for production into the `build` folder, optimized for best performance with minified files and hashed filenames.
+
+### Ejecting Configuration
+
+```bash
+npm run eject
+```
+
+This is a one-way operation that exposes all configuration files (Webpack, Babel, ESLint). Use only if advanced customization is required.
+
+## Testing Strategy
+
+* Unit tests for components and utilities
+* Table-driven test cases for booking and service logic
+* Clear pass/fail criteria with expected vs actual results
+
+## Future Enhancements
+
+* Backend API integration
+* Authentication and authorization
+* Database persistence
+* Advanced role management
+* Improved reporting and analytics
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* Create React App Documentation: [https://facebook.github.io/create-react-app/docs/getting-started](https://facebook.github.io/create-react-app/docs/getting-started)
+* React Documentation: [https://reactjs.org/](https://reactjs.org/)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project serves as a solid foundation for a scalable service booking and management platform, following clean architecture principles and modern React best practices.

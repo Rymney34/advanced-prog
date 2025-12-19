@@ -59,6 +59,7 @@ describe("CRUD Bookings - Unit Test", () => {
            //calling function from controller 
         
         await createBooking(req, res)
+        
         const instance = Booking.mock.results[0].value
          //acctual test expections and waht acctualy received
         expect(instance.save).toHaveBeenCalled()
@@ -259,7 +260,6 @@ describe("CRUD Bookings - Unit Test", () => {
     //Reading own bookings
     test("should read (get) bookings successfuly", async () => {
          //req tha should come from frontend just immitation
-
         const req = {
             query: {page: 1, limit: 5},
             user: { sub: "6938b350de5d0c0e10c7d531" }
@@ -279,8 +279,7 @@ describe("CRUD Bookings - Unit Test", () => {
                 date: "2025-12-20",
                 time: "10:00",
                 phoneNumber: "123456789"
-            },
-            {
+            },{
                 _id: "booking2",
                 user: req.user.sub,
                 serviceTitle: "Standard",
@@ -291,8 +290,7 @@ describe("CRUD Bookings - Unit Test", () => {
                 date: "2025-12-21",
                 time: "14:00",
                 phoneNumber: "987654321"
-            },
-            {
+            },{
                 _id: "booking3",
                 user: req.user.sub,
                 serviceTitle: "VI2",
@@ -303,8 +301,7 @@ describe("CRUD Bookings - Unit Test", () => {
                 date: "2025-12-20",
                 time: "10:00",
                 phoneNumber: "123456789"
-            },
-            {
+            },{
                 _id: "booking4",
                 user: req.user.sub,
                 serviceTitle: "Standard2",

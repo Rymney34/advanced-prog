@@ -13,11 +13,10 @@ export default function Button(props) {
             // type = 'button',
             target = '_blank' 
         } = props;
-
         return (
-           <button type={type} onClick={onClick} style={style}className="ButtonWrap">
+            <button type={type} onClick={onClick} style={style}className="ButtonWrap">
                 <span>{text}</span>
-           </button>
+            </button>
 
         )
     

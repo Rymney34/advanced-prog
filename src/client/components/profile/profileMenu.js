@@ -30,12 +30,11 @@ class ProfileModal extends Component {
 
     getAdmin = async() => {
         try{
-           
             const res = await fetch("/api/isAdmin",{
                 method: "GET",
-                 headers: {
+                    headers: {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
-                       
+
                     },
                 
             })
@@ -49,12 +48,8 @@ class ProfileModal extends Component {
             console.log(error)
         }
     }
-    
-  
+
 render (){
-    // const gazoz = localStorage.getItem('token')
-    // console.log(this.state.adminView)
-    // this.getAdmin()
     if (!this.props.isOpen) return null;
 
     return (
@@ -76,9 +71,7 @@ render (){
             <div className="modalContent">
                 
                      <h4 style={{margin: "0 0 2px 0"}}>Profile</h4>
-                     
-               
-               
+
                 <div className="profileSections">
                     
                     <ul className="list">
@@ -100,11 +93,6 @@ render (){
                     </ul>
                 </div>
             </div>
-
-          
-            
-           
-            
         </div>
     )
   }

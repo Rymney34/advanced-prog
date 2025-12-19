@@ -1,5 +1,5 @@
-import ErrorMessage from "../errorBoundary/ErrorMessage";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import ErrorMessage from "./ErrorMessage";
 
 const Page404 = () => {
     return (

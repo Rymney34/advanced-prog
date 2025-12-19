@@ -1,16 +1,16 @@
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { Component } from 'react';
-import { Formik, Form, Field, ErrorMessage,  useFormikContext} from 'formik';
-import './bookingForm.css'
-import './calendar.css'
+import './bookingForm.css';
+import './calendar.css';
 
-import withRouter from '../navigate/navigate';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from "dayjs";
-import {WrapperPicker} from '../dateTimePicker/dateTimePicker.js'
+import { WrapperPicker } from '../dateTimePicker/dateTimePicker.js';
+import withRouter from '../navigate/navigate.js';
 
-import axios from 'axios'
+import axios from 'axios';
 import * as Yup from 'yup';
-import Button from '../Tools/button/button';
+import Button from '../Tools/button/button.js';
 
 
 class BookingForm extends Component {
@@ -116,10 +116,10 @@ class BookingForm extends Component {
             return this.handleSubmit(values, tools)
         }
     }
-    
     handleSubmit = async (values, { setSubmitting, setStatus, resetForm}) => {
         console.log("Booking Submited Try:");
         try {
+            //send value to bakend via router link + passing token 
             const res = await axios.post(`/api/createBooking`, values,
                 {
                     headers: {
@@ -130,12 +130,14 @@ class BookingForm extends Component {
             );
             console.log("Booking Submited:", res.data);
             console.log(res.data.message)
-               this.setState({
+            //reseting states
+                this.setState({
                             success: true,
                             date:"",
                             selectedTime: ""
                             
                         })
+                        //clear form
                 resetForm({values: {
                         serviceTitle: this.props.serviceTitle, 
                         firstName: "",
@@ -148,8 +150,6 @@ class BookingForm extends Component {
                         bookingNote: ""
                     }
                 });
-
-
         } catch (error) {
             if(error.response && error.response.status === 409){
                 this.setState({
@@ -157,16 +157,12 @@ class BookingForm extends Component {
                     errorMessage: error.message, 
                 });
             }
-             
             console.error(error);
             
             } finally {
             
         }
     };
-
-    
-
     render (){
 
     // transforming data into date and time 
