@@ -44,6 +44,7 @@ The system is designed to support different roles (such as Business Admin and De
 * Node.js (v16 or later recommended)
 * npm or yarn
 
+If dowloading as zip, remove word master, leave only advanced-prog as name of you folder
 ### Installation
 
 ```bash
